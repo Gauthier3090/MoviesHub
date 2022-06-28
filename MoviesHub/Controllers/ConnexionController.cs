@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using MoviesHub.Models;
 using MoviesHub.Models.Mappers;
-using MoviesHub_BLL.DTO;
 using MoviesHub_BLL.Services;
 
 namespace MoviesHub.Controllers;
@@ -21,6 +20,19 @@ public class ConnexionController : Controller
         return View();
     }
 
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public IActionResult Index([FromForm] UserConnexionForm userConnexionForm)
+    {
+        if (!ModelState.IsValid || userConnexionForm.Email == null || userConnexionForm.Password == null)
+            return View(userConnexionForm);
+        string passwordHash = _userService.GetPassword(userConnexionForm.Email);
+        if (Argon2.Verify(passwordHash, userConnexionForm.Password))
+            return RedirectToAction("Index", "Flux");
+        TempData["ErrorConnexion"] = "L'email ou le mot de passe est incorrect. Veuillez réessayer !";
+        return View(userConnexionForm);
+    }
+
     public IActionResult Register()
     {
         return View();
@@ -33,9 +45,8 @@ public class ConnexionController : Controller
         if (!ModelState.IsValid || userForm.Password == null || userForm.Email == null || userForm.Firstname == null ||
             userForm.Lastname == null) return View(userForm);
         string passwordHash = Argon2.Hash(userForm.Password);
-        User user = _userService.Insert(userForm.Email, userForm.Firstname, userForm.Lastname, passwordHash,
+        _userService.Insert(userForm.Email, userForm.Firstname, userForm.Lastname, passwordHash,
             userForm.Old).ToModel();
-        Console.WriteLine($"User created with id: {user.IdUser}");
         return RedirectToAction("Index", "Connexion");
     }
 }

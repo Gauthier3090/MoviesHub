@@ -42,3 +42,15 @@ public class UserForm
     [Required(ErrorMessage = "L'âge est obligatoire")]
     public int Old { get; set; }
 }
+
+public class UserConnexionForm
+{
+    [DisplayName("Email")]
+    [Required(ErrorMessage = "L'email est obligatoire")]
+    public string? Email { get; set; }
+
+    [DisplayName("Mot de Passe")]
+    [Required(ErrorMessage = "Le mot de passe est obligatoire")]
+    [DataType(DataType.Password)]
+    public string? Password { get; set; }
+}

@@ -27,6 +27,16 @@ public class UserService
         return _repositoryUser.GetById(id).ToDto();
     }
 
+    public UserDto GetByEmail(string email)
+    {
+        return _repositoryUser.GetByEmail(email).ToDto();
+    }
+
+    public string GetPassword(string email)
+    {
+        return _repositoryUser.GetPassword(email);
+    }
+
     public bool Delete(int id)
     {
         return _repositoryUser.Delete(id);

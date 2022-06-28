@@ -1,4 +1,6 @@
 ﻿using System.Data;
+using System.Text;
+using Isopoh.Cryptography.Argon2;
 using MoviesHub_DAL.Entities;
 using MoviesHub_DAL.Interfaces;
 using Tools.Connections;
@@ -54,5 +56,28 @@ public class RepositoryUser : Repository<int, UserEntity>, IRepositoryUser
 
         object res = Connection.ExecuteScalar(cmd) ?? 0;
         return (bool)res;
+    }
+
+    public int IsAuthenticated(string email, string password)
+    {
+        Command cmd = new("SELECT id FROM [User] WHERE email=@email AND password=@password");
+        cmd.AddParameter("@email", email);
+        cmd.AddParameter("@password", password);
+        return Connection.ExecuteNonQuery(cmd);
+    }
+
+    public string GetPassword(string email)
+    {
+        Command cmd = new("SELECT password FROM [User] WHERE email=@email");
+        cmd.AddParameter("@email", email);
+        object res = Connection.ExecuteScalar(cmd) ?? 0;
+        return res.ToString();
+    }
+
+    public UserEntity GetByEmail(string email)
+    {
+        Command cmd = new("SELECT * FROM [User] WHERE email=@email");
+        cmd.AddParameter("@email", email);
+        return Connection.ExecuteReader(cmd, MapRecordToEntity, true).SingleOrDefault();
     }
 }
