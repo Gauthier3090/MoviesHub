@@ -1,0 +1,43 @@
+﻿@model IEnumerable<MoviesHub.Models.SearchResult>
+
+@{
+    ViewData["Title"] = "MoviesList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1 class="text-white text-center">Résultat de la recherche</h1>
+<table class="table align-middle mb-0 bg-white m-auto" style="width: 50%">
+    <thead class="bg-light">
+    <tr>
+        <th>
+            Film(s) Trouvé(s)
+        </th>
+        <th>
+            Actions
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (SearchResult item in Model)
+    {
+        <tr>
+            <td>
+                <div class="d-flex align-items-center">
+                    <img
+                        src="@Html.DisplayFor(model => item.Image)"
+                        alt="@Html.DisplayFor(model => item.Image)"
+                        class="col-md-3 img-fluid"/>
+                    <div class="ms-3">
+                        <p class="fw-bold mb-1">@Html.DisplayFor(model => item.Title)</p>
+                    </div>
+                </div>
+            </td>
+            <td>
+                <button type="button" class="btn btn-link">
+                    Edit
+                </button>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
