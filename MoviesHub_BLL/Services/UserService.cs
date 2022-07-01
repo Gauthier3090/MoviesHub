@@ -1,4 +1,5 @@
-﻿using MoviesHub_BLL.DTO;
+﻿using Microsoft.AspNetCore.Http;
+using MoviesHub_BLL.DTO;
 using MoviesHub_BLL.Mappers;
 using MoviesHub_DAL.Entities;
 using MoviesHub_DAL.Interfaces;
@@ -14,7 +15,7 @@ public class UserService
         _repositoryUser = repositoryUser;
     }
 
-    public UserDto Insert(string email, string firstName, string lastName, string password, int old)
+    public UserDto Insert(string email, string firstName, string lastName, string password, DateTime birthdate, IFormFile image)
     {
         int id = _repositoryUser.Insert(new UserEntity
         {
@@ -22,7 +23,9 @@ public class UserService
             Password = password,
             Firstname = firstName,
             Lastname = lastName,
-            Old = old
+            Birthdate = birthdate,
+            Image = image,
+            CreatedAt = DateTime.Now
         });
         return _repositoryUser.GetById(id).ToDto();
     }

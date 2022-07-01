@@ -9,12 +9,13 @@ public static class UserMapper
     {
         return new UserDto
         {
-            IdUser = entity.IdUser,
+            Id = entity.Id,
             Email = entity.Email,
             Password = entity.Password,
             Firstname = entity.Firstname,
             Lastname = entity.Lastname,
-            Old = entity.Old
+            Birthdate = entity.Birthdate,
+            Image = entity.Image
         };
     }
 
@@ -22,12 +23,13 @@ public static class UserMapper
     {
         return new UserEntity
         {
-            IdUser = dto.IdUser,
+            Id = dto.Id,
             Email = dto.Email,
             Password = dto.Password,
             Firstname = dto.Firstname,
             Lastname = dto.Lastname,
-            Old = dto.Old
+            Birthdate = dto.Birthdate,
+            Image = dto.Image
         };
     }
 }

@@ -1,6 +1,5 @@
 ﻿using System.Data;
-using System.Text;
-using Isopoh.Cryptography.Argon2;
+using Microsoft.AspNetCore.Http;
 using MoviesHub_DAL.Entities;
 using MoviesHub_DAL.Interfaces;
 using Tools.Connections;
@@ -17,29 +16,48 @@ public class RepositoryUser : Repository<int, UserEntity>, IRepositoryUser
     {
         return new UserEntity
         {
-            IdUser = (int)record[TableId],
+            Id = (int)record[TableId],
             Email = (string)record["Email"],
             Password = (string)record["Password"],
             Firstname = (string)record["Firstname"],
             Lastname = (string)record["Lastname"],
-            Old = (int)record["Old"]
+            Birthdate = (DateTime)record["Birthdate"]
         };
     }
 
     public override int Insert(UserEntity entity)
     {
-        Command cmd = new("INSERT INTO [User] (email, password, firstname, lastname, old)" +
+        Command cmd = new("INSERT INTO [User] (email, firstname, lastname, [password], birthdate, [image], createdAt)" +
                           $" OUTPUT inserted.{TableId}" +
-                          " VALUES (@email, @password, @firstname, @lastname, @old)");
+                          " VALUES (@email, @firstname, @lastname, @password, @birthdate, @image, @createdAt)");
 
         cmd.AddParameter("@email", entity.Email);
-        cmd.AddParameter("@password", entity.Password);
         cmd.AddParameter("@firstname", entity.Firstname);
         cmd.AddParameter("@lastname", entity.Lastname);
-        cmd.AddParameter("@old", entity.Old);
-
+        cmd.AddParameter("@password", entity.Password);
+        cmd.AddParameter("@birthdate", entity.Birthdate);
+        cmd.AddParameter("@image", entity.Image?.FileName);
+        cmd.AddParameter("@createdAt", DateTime.Now);
+        if (entity.Image != null) SaveImage(entity.Image);
         object res = Connection.ExecuteScalar(cmd) ?? -1;
         return (int)res;
+    }
+
+    public static async Task<byte[]> GetBytes(IFormFile formFile)
+    {
+        await using MemoryStream memoryStream = new();
+        await formFile.CopyToAsync(memoryStream);
+        return memoryStream.ToArray();
+    }
+
+    private static async void SaveImage(IFormFile filename)
+    {
+        string folderName = Path.Combine("wwwroot", "images");
+        string imagePath = Path.Combine(folderName, filename.FileName);
+        await using FileStream imageFile = new(imagePath, FileMode.Create);
+        byte[] bytes = await GetBytes(filename);
+        imageFile.Write(bytes, 0, bytes.Length);
+        imageFile.Flush();
     }
 
     public override bool Update(int id, UserEntity entity)
@@ -52,7 +70,7 @@ public class RepositoryUser : Repository<int, UserEntity>, IRepositoryUser
         cmd.AddParameter("password", entity.Password);
         cmd.AddParameter("firstname", entity.Firstname);
         cmd.AddParameter("lastname", entity.Lastname);
-        cmd.AddParameter("age", entity.Old);
+        cmd.AddParameter("age", entity.Birthdate);
 
         object res = Connection.ExecuteScalar(cmd) ?? 0;
         return (bool)res;
@@ -71,7 +89,7 @@ public class RepositoryUser : Repository<int, UserEntity>, IRepositoryUser
         Command cmd = new("SELECT password FROM [User] WHERE email=@email");
         cmd.AddParameter("@email", email);
         object res = Connection.ExecuteScalar(cmd) ?? 0;
-        return res.ToString();
+        return res?.ToString();
     }
 
     public UserEntity GetByEmail(string email)

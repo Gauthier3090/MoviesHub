@@ -1,0 +1,8 @@
+﻿CREATE TABLE [dbo].[Group]
+(
+	[Id] INT NOT NULL,
+	[Name] NVARCHAR(250) NOT NULL,
+	[CreatedAt] DATETIME NOT NULL,
+	[UpdatedAt] DATETIME NULL,
+	CONSTRAINT [PK_Group] PRIMARY KEY(Id),
+)

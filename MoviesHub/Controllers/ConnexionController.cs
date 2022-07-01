@@ -40,13 +40,12 @@ public class ConnexionController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public IActionResult Register([FromForm] UserForm userForm)
-    {
+    public IActionResult Register([FromForm] UserForm userForm)    {
         if (!ModelState.IsValid || userForm.Password == null || userForm.Email == null || userForm.Firstname == null ||
-            userForm.Lastname == null) return View(userForm);
+            userForm.Lastname == null || userForm.Image == null) return View(userForm);
         string passwordHash = Argon2.Hash(userForm.Password);
         _userService.Insert(userForm.Email, userForm.Firstname, userForm.Lastname, passwordHash,
-            userForm.Old).ToModel();
+            userForm.Birthdate, userForm.Image).ToModel();
         return RedirectToAction("Index", "Connexion");
     }
 }

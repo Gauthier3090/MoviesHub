@@ -6,7 +6,7 @@ using Tools.Connections;
 
 namespace MoviesHub_DAL.Repositories;
 
-public abstract class Repository<TKey, TEntity> : IRepository<TKey, TEntity>
+public abstract class Repository<TKey, TEntity> : IRepository<TKey, TEntity> where TEntity : class
 {
     protected Connection Connection { get; set; }
     protected string TableName { get; set; }
@@ -28,7 +28,7 @@ public abstract class Repository<TKey, TEntity> : IRepository<TKey, TEntity>
         return Connection.ExecuteReader(cmd, MapRecordToEntity, false);
     }
 
-    public virtual TEntity GetById(TKey id)
+    public virtual TEntity? GetById(TKey id)
     {
         Command cmd = new($"SELECT * FROM {TableName} WHERE {TableId} = @Id");
         cmd.AddParameter("Id", id);

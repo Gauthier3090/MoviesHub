@@ -8,11 +8,11 @@ public static class UserMapper
     {
         return new User
         {
-            IdUser = dto.IdUser,
+            Id = dto.Id,
             Email = dto.Email,
             Firstname = dto.Firstname,
             Lastname = dto.Lastname,
-            Old = dto.Old
+            Birthdate = dto.Birthdate,
         };
     }
 }

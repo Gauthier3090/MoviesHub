@@ -62,6 +62,9 @@
     <Build Include="Tables\Comment.sql" />
     <Build Include="Tables\Publication.sql" />
     <Build Include="Tables\User.sql" />
-    <Build Include="Tables\UserFollows.sql" />
+    <Build Include="Tables\Follow.sql" />
+    <Build Include="Tables\Role.sql" />
+    <Build Include="Tables\Group.sql" />
+    <Build Include="Tables\GroupActif.sql" />
   </ItemGroup>
 </Project>
