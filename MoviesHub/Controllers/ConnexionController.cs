@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using MoviesHub.Models;
 using MoviesHub.Models.Mappers;
+using MoviesHub.Services;
+using MoviesHub_BLL.DTO;
 using MoviesHub_BLL.Services;
 
 namespace MoviesHub.Controllers;
@@ -22,13 +24,21 @@ public class ConnexionController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public IActionResult Index([FromForm] UserConnexionForm userConnexionForm)
+    public IActionResult Index([FromForm] UserConnexionForm? userConnexionForm)
     {
-        if (!ModelState.IsValid || userConnexionForm.Email == null || userConnexionForm.Password == null)
+        if (!ModelState.IsValid || userConnexionForm?.Email == null || userConnexionForm.Password == null)
             return View(userConnexionForm);
-        string passwordHash = _userService.GetPassword(userConnexionForm.Email);
+        string passwordHash = _userService.GetPassword(userConnexionForm.Email) ?? "null";
         if (Argon2.Verify(passwordHash, userConnexionForm.Password))
+        {
+            UserDto? user = _userService.GetByEmail(userConnexionForm.Email);
+            HttpContext.Session.SetString("Email", user?.Email ?? "not found");
+            HttpContext.Session.SetString("Firstname", user?.Firstname ?? "not found");
+            HttpContext.Session.SetString("Lastname", user?.Lastname ?? "not found");
+            HttpContext.Session.SetString("Birthdate", user?.Birthdate.ToShortDateString() ?? "not found");
+            HttpContext.Session.SetString("Image", user?.Image ?? "not found");
             return RedirectToAction("Index", "Flux");
+        }
         TempData["ErrorConnexion"] = "L'email ou le mot de passe est incorrect. Veuillez réessayer !";
         return View(userConnexionForm);
     }
@@ -44,8 +54,14 @@ public class ConnexionController : Controller
         if (!ModelState.IsValid || userForm.Password == null || userForm.Email == null || userForm.Firstname == null ||
             userForm.Lastname == null || userForm.Image == null) return View(userForm);
         string passwordHash = Argon2.Hash(userForm.Password);
-        _userService.Insert(userForm.Email, userForm.Firstname, userForm.Lastname, passwordHash,
-            userForm.Birthdate, userForm.Image).ToModel();
+        Image imageUser = new(userForm.Image);
+        string? filenameImage = imageUser.FileName;
+        imageUser.SaveImage();
+        if (filenameImage != null)
+        {
+            _userService.Insert(userForm.Email, userForm.Firstname, userForm.Lastname, passwordHash,
+                userForm.Birthdate, filenameImage)?.ToModel();
+        }
         return RedirectToAction("Index", "Connexion");
     }
 }

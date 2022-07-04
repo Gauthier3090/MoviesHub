@@ -15,7 +15,7 @@ public class UserService
         _repositoryUser = repositoryUser;
     }
 
-    public UserDto Insert(string email, string firstName, string lastName, string password, DateTime birthdate, IFormFile image)
+    public UserDto? Insert(string email, string firstName, string lastName, string password, DateTime birthdate, string image)
     {
         int id = _repositoryUser.Insert(new UserEntity
         {
@@ -27,15 +27,15 @@ public class UserService
             Image = image,
             CreatedAt = DateTime.Now
         });
-        return _repositoryUser.GetById(id).ToDto();
+        return _repositoryUser.GetById(id)?.ToDto();
     }
 
-    public UserDto GetByEmail(string email)
+    public UserDto? GetByEmail(string email)
     {
-        return _repositoryUser.GetByEmail(email).ToDto();
+        return _repositoryUser.GetByEmail(email)?.ToDto();
     }
 
-    public string GetPassword(string email)
+    public string? GetPassword(string? email)
     {
         return _repositoryUser.GetPassword(email);
     }

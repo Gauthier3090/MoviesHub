@@ -1,8 +1,20 @@
-﻿@{
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor Accessor
+
+@{
     ViewData["Title"] = "Mon Flux";
 }
 
 
 <div class="d-flex flex-column justify-content-center align-items-center bg-primary text-white pt-5 pb-5">
-    <a class="btn btn-outline-light" asp-area="" asp-controller="Flux" asp-action="Create">Créer une publication</a>
+    <div class="card col-md-3">
+        <div class="card-body text-black text-center">
+            <h4 class="card-title">@Accessor.HttpContext?.Session.GetString("Firstname")
+                @Accessor.HttpContext?.Session.GetString("Lastname")</h4>
+            <img class="img-fluid" src="https://localhost:7158/images/maphotodeprofil.jpg" alt="Card image">
+            <p class="card-text">Bienvenue sur votre compte !</p>
+            <a href="#" class="btn btn-primary">Mettre à jour mon profil</a>
+        </div>
+    </div>
+    <a class="btn btn-outline-light mt-3" asp-area="" asp-controller="Flux" asp-action="Create">Créer une publication</a>
 </div>

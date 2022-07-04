@@ -1,21 +1,14 @@
-﻿using System.Net.Http.Headers;
+﻿using IMDbApiLib;
+using IMDbApiLib.Models;
 using Microsoft.AspNetCore.Mvc;
 using MoviesHub.Models;
-using MoviesHub_BLL.Services;
 using Newtonsoft.Json;
 
 namespace MoviesHub.Controllers;
 
 public class FluxController : Controller
 {
-    private readonly UserService _userService;
-    private readonly string _baseUrl = "https://imdb-api.com/fr/";
-    private readonly string apiKey = "k_8nrxshx3";
-
-    public FluxController(UserService userService)
-    {
-        _userService = userService;
-    }
+    private const string ApiKey = "k_zf6s6fta";
 
     public IActionResult Index()
     {
@@ -27,21 +20,23 @@ public class FluxController : Controller
         return View();
     }
 
-    public async Task<ActionResult> MoviesList()
+    //public IActionResult MoviesList()
+    //{
+    //    List<SearchResult> response = (List<SearchResult>)TempData["Movies"];
+
+    //    Console.WriteLine(response);
+    //    return View(response);
+    //}
+
+    public async Task<ActionResult> MoviesList([FromForm]PublicationForm publicationForm)
     {
-        List<SearchResult> search = new();
-        using HttpClient client = new();
-        client.BaseAddress = new Uri(_baseUrl);
-        client.DefaultRequestHeaders.Clear();
-        client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+        List<SearchResult> search = new List<SearchResult>();
         try
         {
-            SearchData? response = await client.GetFromJsonAsync<SearchData>($"API/Search/{apiKey}/leseigneur");
-            Console.WriteLine(response?.Results);
-            foreach (var movie in response.Results)
-            {
-                search.Add(movie);
-            }
+            ApiLib apiLib = new(ApiKey);
+            SearchData? response = await apiLib.SearchMovieAsync(publicationForm.Title);
+            response?.Results?.ForEach(m => search.Add(m));
+
             return View(search);
         }
         catch (HttpRequestException)
@@ -56,6 +51,36 @@ public class FluxController : Controller
         {
             Console.WriteLine("Invalid JSON.");
         }
-        return View();
+        return RedirectToAction("Create", "Flux");
+    }
+
+    public IActionResult Publish(TitleData? movie)
+    {
+        return View(movie);
+    }
+
+    public async Task<ActionResult> RequestTitleMovie(string id)
+    {
+        try
+        {
+
+
+            ApiLib apiLib = new(ApiKey);
+            TitleData? response = await apiLib.TitleAsync(id, Language.fr);
+            return RedirectToAction("Publish", "Flux", response);
+        }
+        catch (HttpRequestException)
+        {
+            Console.WriteLine("An error occurred.");
+        }
+        catch (NotSupportedException)
+        {
+            Console.WriteLine("The content type is not supported.");
+        }
+        catch (JsonException)
+        {
+            Console.WriteLine("Invalid JSON.");
+        }
+        return RedirectToAction("MoviesList", "Flux");
     }
 }

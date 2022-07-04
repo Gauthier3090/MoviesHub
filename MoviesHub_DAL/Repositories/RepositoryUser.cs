@@ -21,7 +21,8 @@ public class RepositoryUser : Repository<int, UserEntity>, IRepositoryUser
             Password = (string)record["Password"],
             Firstname = (string)record["Firstname"],
             Lastname = (string)record["Lastname"],
-            Birthdate = (DateTime)record["Birthdate"]
+            Birthdate = (DateTime)record["Birthdate"],
+            Image = (string)record["Image"]
         };
     }
 
@@ -36,28 +37,10 @@ public class RepositoryUser : Repository<int, UserEntity>, IRepositoryUser
         cmd.AddParameter("@lastname", entity.Lastname);
         cmd.AddParameter("@password", entity.Password);
         cmd.AddParameter("@birthdate", entity.Birthdate);
-        cmd.AddParameter("@image", entity.Image?.FileName);
+        cmd.AddParameter("@image", entity.Image);
         cmd.AddParameter("@createdAt", DateTime.Now);
-        if (entity.Image != null) SaveImage(entity.Image);
         object res = Connection.ExecuteScalar(cmd) ?? -1;
         return (int)res;
-    }
-
-    public static async Task<byte[]> GetBytes(IFormFile formFile)
-    {
-        await using MemoryStream memoryStream = new();
-        await formFile.CopyToAsync(memoryStream);
-        return memoryStream.ToArray();
-    }
-
-    private static async void SaveImage(IFormFile filename)
-    {
-        string folderName = Path.Combine("wwwroot", "images");
-        string imagePath = Path.Combine(folderName, filename.FileName);
-        await using FileStream imageFile = new(imagePath, FileMode.Create);
-        byte[] bytes = await GetBytes(filename);
-        imageFile.Write(bytes, 0, bytes.Length);
-        imageFile.Flush();
     }
 
     public override bool Update(int id, UserEntity entity)
@@ -84,7 +67,7 @@ public class RepositoryUser : Repository<int, UserEntity>, IRepositoryUser
         return Connection.ExecuteNonQuery(cmd);
     }
 
-    public string GetPassword(string email)
+    public string? GetPassword(string? email)
     {
         Command cmd = new("SELECT password FROM [User] WHERE email=@email");
         cmd.AddParameter("@email", email);
@@ -92,7 +75,7 @@ public class RepositoryUser : Repository<int, UserEntity>, IRepositoryUser
         return res?.ToString();
     }
 
-    public UserEntity GetByEmail(string email)
+    public UserEntity? GetByEmail(string? email)
     {
         Command cmd = new("SELECT * FROM [User] WHERE email=@email");
         cmd.AddParameter("@email", email);

@@ -9,4 +9,9 @@
         public DateTime? CreatedDate { get; set; }
         public int User { get; set; }
     }
+
+    public class PublicationForm
+    {
+        public string? Title { get; set; }
+    }
 }

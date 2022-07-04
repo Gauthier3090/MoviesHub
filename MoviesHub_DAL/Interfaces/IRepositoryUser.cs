@@ -4,6 +4,6 @@ namespace MoviesHub_DAL.Interfaces;
 
 public interface IRepositoryUser : IRepository<int, UserEntity>
 {
-    UserEntity GetByEmail(string email);
-    string GetPassword(string email);
+    UserEntity? GetByEmail(string? email);
+    string? GetPassword(string? email);
 }

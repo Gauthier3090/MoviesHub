@@ -3,11 +3,14 @@ using MoviesHub_DAL.Interfaces;
 using MoviesHub_DAL.Repositories;
 using Tools.Connections;
 using System.Data.SqlClient;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddSession();
+builder.Services.AddDistributedMemoryCache();
 
 builder.Services.AddTransient( _ =>
 {
@@ -18,6 +21,7 @@ builder.Services.AddTransient( _ =>
     return connection;
 });
 
+builder.Services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddTransient<IRepositoryUser, RepositoryUser>();
 builder.Services.AddTransient<UserService>();
 
@@ -33,6 +37,7 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+app.UseSession();
 
 app.UseRouting();
 

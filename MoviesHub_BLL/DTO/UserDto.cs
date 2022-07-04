@@ -10,7 +10,7 @@ public class UserDto
     public string? Lastname { get; set; }
     public string? Password { get; set; }
     public DateTime Birthdate { get; set; }
-    public IFormFile? Image { get; set; }
+    public string? Image { get; set; }
     public DateTime CreatedAt { get; set; }
     public DateTime? UpdatedAt { get; set; }
     public bool IsActive { get; set; }
