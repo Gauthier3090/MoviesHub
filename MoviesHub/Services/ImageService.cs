@@ -1,12 +1,12 @@
 ﻿namespace MoviesHub.Services;
 
-public class Image
+public class ImageService
 {
-    private static readonly string FolderName = Path.Combine("wwwroot", "images");
-    private IFormFile? ImageFile { get; set; }
-    public string? FileName { get; set; }
+    private readonly string _folderName = Path.Combine("wwwroot", "images");
+    private IFormFile? ImageFile { get; }
+    public string? FileName { get; }
 
-    public Image(IFormFile formFile)
+    public ImageService(IFormFile formFile)
     {
         ImageFile = formFile;
         FileName = new Guid() + ImageFile.FileName;
@@ -21,8 +21,8 @@ public class Image
 
     public async void SaveImage()
     {
-        string? imagePath = FileName;
-        if (imagePath == null) return;
+        if (FileName == null) return;
+        string imagePath = Path.Combine(_folderName, FileName);
         await using FileStream imageFile = new(imagePath, FileMode.Create);
         byte[] bytes = await GetBytes();
         imageFile.Write(bytes, 0, bytes.Length);

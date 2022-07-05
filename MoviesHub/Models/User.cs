@@ -56,6 +56,8 @@ public class UserConnexionForm
 {
     [DisplayName("Email")]
     [Required(ErrorMessage = "L'email est obligatoire")]
+    [EmailAddress(ErrorMessage = "Le format de l'adresse de courriel est éroné :o")]
+    [DataType(DataType.EmailAddress)]
     public string? Email { get; set; }
 
     [DisplayName("Mot de Passe")]

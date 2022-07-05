@@ -19,7 +19,12 @@ public class ConnexionController : Controller
 
     public IActionResult Index()
     {
-        return View();
+
+        return View(new UserConnexionForm
+        {
+            Email = "gauthier.pladet@gmail.com",
+            Password = "#Helloworld1"
+        });
     }
 
     [HttpPost]
@@ -32,12 +37,16 @@ public class ConnexionController : Controller
         if (Argon2.Verify(passwordHash, userConnexionForm.Password))
         {
             UserDto? user = _userService.GetByEmail(userConnexionForm.Email);
-            HttpContext.Session.SetString("Email", user?.Email ?? "not found");
-            HttpContext.Session.SetString("Firstname", user?.Firstname ?? "not found");
-            HttpContext.Session.SetString("Lastname", user?.Lastname ?? "not found");
-            HttpContext.Session.SetString("Birthdate", user?.Birthdate.ToShortDateString() ?? "not found");
-            HttpContext.Session.SetString("Image", user?.Image ?? "not found");
-            return RedirectToAction("Index", "Flux");
+            if (user != null)
+            {
+                _userService.IsConnected(user.Id);
+                HttpContext.Session.SetString("Email", user.Email ?? "not found");
+                HttpContext.Session.SetString("Firstname", user.Firstname ?? "not found");
+                HttpContext.Session.SetString("Lastname", user.Lastname ?? "not found");
+                HttpContext.Session.SetString("Birthdate", user.Birthdate.ToShortDateString());
+                HttpContext.Session.SetString("Image", user.Image ?? "not found");
+                return RedirectToAction("Index", "Flux");
+            }
         }
         TempData["ErrorConnexion"] = "L'email ou le mot de passe est incorrect. Veuillez réessayer !";
         return View(userConnexionForm);
@@ -54,7 +63,7 @@ public class ConnexionController : Controller
         if (!ModelState.IsValid || userForm.Password == null || userForm.Email == null || userForm.Firstname == null ||
             userForm.Lastname == null || userForm.Image == null) return View(userForm);
         string passwordHash = Argon2.Hash(userForm.Password);
-        Image imageUser = new(userForm.Image);
+        ImageService imageUser = new(userForm.Image);
         string? filenameImage = imageUser.FileName;
         imageUser.SaveImage();
         if (filenameImage != null)

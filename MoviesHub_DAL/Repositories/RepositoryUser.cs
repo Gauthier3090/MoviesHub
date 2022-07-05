@@ -1,5 +1,4 @@
 ﻿using System.Data;
-using Microsoft.AspNetCore.Http;
 using MoviesHub_DAL.Entities;
 using MoviesHub_DAL.Interfaces;
 using Tools.Connections;
@@ -55,7 +54,20 @@ public class RepositoryUser : Repository<int, UserEntity>, IRepositoryUser
         cmd.AddParameter("lastname", entity.Lastname);
         cmd.AddParameter("age", entity.Birthdate);
 
-        object res = Connection.ExecuteScalar(cmd) ?? 0;
+        object res = Connection.ExecuteScalar(cmd) ?? false;
+        return (bool)res;
+    }
+
+    public bool IsConnected(int id)
+    {
+        Command cmd = new("UPDATE [User]" +
+                          "SET LastLogin=@LastLogin, isConnected=isConnected"+
+                          $" WHERE {TableId}={id}");
+
+        cmd.AddParameter("lastlogin", DateTime.Now);
+        cmd.AddParameter("isConnected", 1);
+
+        object res = Connection.ExecuteScalar(cmd) ?? false;
         return (bool)res;
     }
 
@@ -71,7 +83,7 @@ public class RepositoryUser : Repository<int, UserEntity>, IRepositoryUser
     {
         Command cmd = new("SELECT password FROM [User] WHERE email=@email");
         cmd.AddParameter("@email", email);
-        object res = Connection.ExecuteScalar(cmd) ?? 0;
+        object? res = Connection.ExecuteScalar(cmd);
         return res?.ToString();
     }
 
