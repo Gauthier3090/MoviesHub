@@ -6,5 +6,4 @@ public interface IRepositoryUser : IRepository<int, UserEntity>
 {
     UserEntity? GetByEmail(string? email);
     string? GetPassword(string? email);
-    bool IsConnected(int id);
 }

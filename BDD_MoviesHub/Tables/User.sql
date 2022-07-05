@@ -11,6 +11,5 @@
 	[UpdatedAt] DATETIME NULL,
 	[IsActive] BIT DEFAULT(1),
 	[LastLogin] DATETIME NULL,
-	[IsConnected] BIT DEFAULT(0),
 	CONSTRAINT [PK_USER] PRIMARY KEY(Id),
 )

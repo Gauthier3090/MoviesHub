@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@inject IHttpContextAccessor Accessor
+
+<!DOCTYPE html>
 <html lang="fr">
     <head>
         <meta charset="utf-8"/>
@@ -17,16 +19,29 @@
                             aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
-                    <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                        <ul class="navbar-nav flex-grow-1">
-                            <li class="nav-item">
-                                <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                            </li>
-                        </ul>
-                    </div>
+                    @if (Accessor.HttpContext?.Session.GetInt32("IsConnected") == 1) 
+                    {
+                        <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                            <ul class="navbar-nav flex-grow-1">
+                                <li class="nav-item">
+                                    <a class="nav-link text-white" asp-area="" asp-controller="Flux" asp-action="Index">Mon Flux</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-white" asp-area="" asp-controller="Connexion" asp-action="Logout">Se déconnecter</a>
+                                </li>
+                            </ul>
+                        </div>
+                    }
+                    else 
+                    {
+                        <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                            <ul class="navbar-nav flex-grow-1">
+                                <li class="nav-item">
+                                    <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                                </li>
+                            </ul>
+                        </div>
+                    }
                 </div>
             </nav>
         </header>
@@ -38,7 +53,7 @@
 
         <footer class="bg-dark box-shadow footer text-muted">
             <div class="text-white ms-3">
-                 &copy; 2022 - MoviesHub
+                 &copy; 2022 - MoviesWorld
             </div>
         </footer>
         <script src="~/lib/jquery/dist/jquery.min.js"></script>

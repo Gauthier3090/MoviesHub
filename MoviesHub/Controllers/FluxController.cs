@@ -45,7 +45,7 @@ public class FluxController : Controller
         if (_cache.ContainsItem(id))
             movie = (TitleData?)_cache.GetItem(id);
         else
-            movie = await apiLib.TitleAsync(id);
+            movie = await apiLib.TitleAsync(id, Language.fr);
         return View(movie);
     }
 }

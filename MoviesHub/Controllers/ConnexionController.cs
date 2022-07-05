@@ -39,12 +39,12 @@ public class ConnexionController : Controller
             UserDto? user = _userService.GetByEmail(userConnexionForm.Email);
             if (user != null)
             {
-                _userService.IsConnected(user.Id);
                 HttpContext.Session.SetString("Email", user.Email ?? "not found");
                 HttpContext.Session.SetString("Firstname", user.Firstname ?? "not found");
                 HttpContext.Session.SetString("Lastname", user.Lastname ?? "not found");
                 HttpContext.Session.SetString("Birthdate", user.Birthdate.ToShortDateString());
                 HttpContext.Session.SetString("Image", user.Image ?? "not found");
+                HttpContext.Session.SetInt32("IsConnected", 1);
                 return RedirectToAction("Index", "Flux");
             }
         }
@@ -55,6 +55,12 @@ public class ConnexionController : Controller
     public IActionResult Register()
     {
         return View();
+    }
+
+    public IActionResult Logout()
+    {
+        HttpContext.Session.Clear();
+        return RedirectToAction("Index", "Home");
     }
 
     [HttpPost]

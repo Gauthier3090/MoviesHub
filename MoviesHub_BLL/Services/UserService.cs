@@ -44,9 +44,4 @@ public class UserService
     {
         return _repositoryUser.Delete(id);
     }
-
-    public bool IsConnected(int id)
-    {
-        return _repositoryUser.IsConnected(id);
-    }
 }

@@ -67,4 +67,7 @@
     <Build Include="Tables\Group.sql" />
     <Build Include="Tables\GroupActif.sql" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="BDD_MoviesHub.publish.xml" />
+  </ItemGroup>
 </Project>

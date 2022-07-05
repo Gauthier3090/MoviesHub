@@ -46,37 +46,17 @@ public class RepositoryUser : Repository<int, UserEntity>, IRepositoryUser
     {
         Command cmd = new("UPDATE [User]" +
                           "SET email=email, password=password, firstname=firstname, lastname=lastname, age=age" +
-                          $" WHERE {TableId}={id}");
+                          $" WHERE {TableId}= @Id");
 
         cmd.AddParameter("email", entity.Email);
         cmd.AddParameter("password", entity.Password);
         cmd.AddParameter("firstname", entity.Firstname);
         cmd.AddParameter("lastname", entity.Lastname);
         cmd.AddParameter("age", entity.Birthdate);
+        cmd.AddParameter("Id", id);
 
         object res = Connection.ExecuteScalar(cmd) ?? false;
         return (bool)res;
-    }
-
-    public bool IsConnected(int id)
-    {
-        Command cmd = new("UPDATE [User]" +
-                          "SET LastLogin=@LastLogin, isConnected=isConnected"+
-                          $" WHERE {TableId}={id}");
-
-        cmd.AddParameter("lastlogin", DateTime.Now);
-        cmd.AddParameter("isConnected", 1);
-
-        object res = Connection.ExecuteScalar(cmd) ?? false;
-        return (bool)res;
-    }
-
-    public int IsAuthenticated(string email, string password)
-    {
-        Command cmd = new("SELECT id FROM [User] WHERE email=@email AND password=@password");
-        cmd.AddParameter("@email", email);
-        cmd.AddParameter("@password", password);
-        return Connection.ExecuteNonQuery(cmd);
     }
 
     public string? GetPassword(string? email)
