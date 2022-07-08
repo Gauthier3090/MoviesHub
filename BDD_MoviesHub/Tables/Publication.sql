@@ -1,9 +1,9 @@
 ﻿CREATE TABLE [dbo].[Publication]
 (
-	[Id] INT NOT NULL,
+	[Id] INT IDENTITY(1,1) NOT NULL,
 	[Title] NVARCHAR(250) NOT NULL,
 	[Description] TEXT NOT NULL,
-	[Image] VARBINARY(MAX) NOT NULL,
+	[Image] NVARCHAR(MAX) NOT NULL,
 	[CreatedAt] DATETIME NOT NULL,
 	[UpdatedAt] DATETIME NULL,
 	[IsActive] BIT NOT NULL DEFAULT(1),

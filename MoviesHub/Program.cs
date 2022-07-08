@@ -23,7 +23,9 @@ builder.Services.AddTransient( _ =>
 
 builder.Services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddTransient<IRepositoryUser, RepositoryUser>();
+builder.Services.AddTransient<IRepositoryPublication, RepositoryPublication>();
 builder.Services.AddTransient<UserService>();
+builder.Services.AddTransient<PublicationService>();
 
 WebApplication app = builder.Build();
 

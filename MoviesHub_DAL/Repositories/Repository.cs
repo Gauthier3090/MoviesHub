@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Data;
-using System.Linq;
+﻿using System.Data;
 using MoviesHub_DAL.Interfaces;
 using Tools.Connections;
 
@@ -9,7 +7,7 @@ namespace MoviesHub_DAL.Repositories;
 public abstract class Repository<TKey, TEntity> : IRepository<TKey, TEntity> where TEntity : class
 {
     protected Connection Connection { get; set; }
-    protected string TableName { get; set; }
+    private string TableName { get; set; }
     protected string TableId { get; set; }
 
     protected Repository(Connection connection, string tableName, string tableId)

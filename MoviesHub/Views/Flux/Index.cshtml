@@ -1,4 +1,6 @@
 ﻿@using Microsoft.AspNetCore.Http
+@model MoviesHub_BLL.DTO.PublicationDto
+
 @inject IHttpContextAccessor Accessor
 
 @{
@@ -9,12 +11,26 @@
 <div class="d-flex flex-column justify-content-center align-items-center bg-primary text-white pt-5 pb-5">
     <div class="card col-md-3">
         <div class="card-body text-black text-center">
-            <h4 class="card-title">@Accessor.HttpContext?.Session.GetString("Firstname")
-                @Accessor.HttpContext?.Session.GetString("Lastname")</h4>
-            <img class="img-fluid" src="https://localhost:7158/images/maphotodeprofil.jpg" alt="Card image">
+            <h4 class="card-title">
+                @Accessor.HttpContext?.Session.GetString("Firstname")
+                @Accessor.HttpContext?.Session.GetString("Lastname")
+            </h4>
+            <img class="img-fluid" src="https://localhost:7158/images/@Accessor.HttpContext?.Session.GetString("Image")" alt="Photo de profil de @Accessor.HttpContext?.Session.GetString("Lastname")">
             <p class="card-text">Bienvenue sur votre compte !</p>
             <a href="#" class="btn btn-primary">Mettre à jour mon profil</a>
+            <a class="btn btn-primary" asp-area="" asp-controller="Flux" asp-action="Create">Créer une publication</a>
         </div>
     </div>
-    <a class="btn btn-outline-light mt-3" asp-area="" asp-controller="Flux" asp-action="Create">Créer une publication</a>
+    <div class="d-flex justify-content-center flex-column mt-5 pb-5 bg-light text-black w-50 m-auto">
+        <div class="d-flex justify-content-between">
+            <p class="text-start p-3">Vous avez regardé ce film</p>
+            <p class="text-end p-3">@Model.CreatedAt</p>
+        </div>
+        <div class="d-flex justify-content-center align-items-center flex-column">
+            <p>@Model.Title</p>
+            <div class="col-md-3">
+                <img class="img-fluid" src="@Model.Image" alt="@Model.Title"/>
+            </div>
+        </div>
+    </div>
 </div>

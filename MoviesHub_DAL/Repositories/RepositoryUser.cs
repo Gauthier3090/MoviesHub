@@ -46,7 +46,7 @@ public class RepositoryUser : Repository<int, UserEntity>, IRepositoryUser
     {
         Command cmd = new("UPDATE [User]" +
                           "SET email=email, password=password, firstname=firstname, lastname=lastname, age=age" +
-                          $" WHERE {TableId}= @Id");
+                          $" WHERE {TableId} = @Id");
 
         cmd.AddParameter("email", entity.Email);
         cmd.AddParameter("password", entity.Password);

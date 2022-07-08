@@ -39,6 +39,7 @@ public class ConnexionController : Controller
             UserDto? user = _userService.GetByEmail(userConnexionForm.Email);
             if (user != null)
             {
+                HttpContext.Session.SetString("Id", user.Id.ToString() ?? "not found");
                 HttpContext.Session.SetString("Email", user.Email ?? "not found");
                 HttpContext.Session.SetString("Firstname", user.Firstname ?? "not found");
                 HttpContext.Session.SetString("Lastname", user.Lastname ?? "not found");

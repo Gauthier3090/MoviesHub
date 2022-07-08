@@ -6,12 +6,9 @@
         public string? Title { get; set; }
         public string? Description { get; set; }
         public string? Image { get; set; }
-        public DateTime? CreatedDate { get; set; }
-        public int User { get; set; }
-    }
-
-    public class PublicationForm
-    {
-        public string? Title { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
+        public bool IsActive { get; set; }
+        public int Creator { get; set; }
     }
 }
