@@ -5,6 +5,7 @@ using MoviesHub.Models.Mappers;
 using MoviesHub.Services;
 using MoviesHub_BLL.DTO;
 using MoviesHub_BLL.Services;
+using MoviesHub_DAL.Entities;
 
 namespace MoviesHub.Controllers;
 
@@ -19,7 +20,6 @@ public class ConnexionController : Controller
 
     public IActionResult Index()
     {
-
         return View(new UserConnexionForm
         {
             Email = "gauthier.pladet@gmail.com",
@@ -39,7 +39,7 @@ public class ConnexionController : Controller
             UserDto? user = _userService.GetByEmail(userConnexionForm.Email);
             if (user != null)
             {
-                HttpContext.Session.SetString("Id", user.Id.ToString() ?? "not found");
+                HttpContext.Session.SetString("Id", user.Id.ToString());
                 HttpContext.Session.SetString("Email", user.Email ?? "not found");
                 HttpContext.Session.SetString("Firstname", user.Firstname ?? "not found");
                 HttpContext.Session.SetString("Lastname", user.Lastname ?? "not found");
@@ -49,6 +49,7 @@ public class ConnexionController : Controller
                 return RedirectToAction("Index", "Flux");
             }
         }
+
         TempData["ErrorConnexion"] = "L'email ou le mot de passe est incorrect. Veuillez réessayer !";
         return View(userConnexionForm);
     }
@@ -66,7 +67,8 @@ public class ConnexionController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public IActionResult Register([FromForm] UserForm userForm)    {
+    public IActionResult Register([FromForm] UserForm userForm)
+    {
         if (!ModelState.IsValid || userForm.Password == null || userForm.Email == null || userForm.Firstname == null ||
             userForm.Lastname == null || userForm.Image == null) return View(userForm);
         string passwordHash = Argon2.Hash(userForm.Password);
@@ -74,10 +76,50 @@ public class ConnexionController : Controller
         string? filenameImage = imageUser.FileName;
         imageUser.SaveImage();
         if (filenameImage != null)
-        {
             _userService.Insert(userForm.Email, userForm.Firstname, userForm.Lastname, passwordHash,
                 userForm.Birthdate, filenameImage)?.ToModel();
-        }
         return RedirectToAction("Index", "Connexion");
+    }
+
+    public IActionResult UpdateUser()
+    {
+        string? idstring = HttpContext.Session.GetString("id");
+        if (idstring == null) return View();
+        int id = int.Parse(idstring);
+        UserDto? user = _userService.GetById(id);
+        if (user == null) return View();
+        HttpContext.Session.SetString("Email", user.Email ?? "not found");
+        HttpContext.Session.SetString("Firstname", user.Firstname ?? "not found");
+        HttpContext.Session.SetString("Lastname", user.Lastname ?? "not found");
+        HttpContext.Session.SetString("Birthdate", user.Birthdate.ToShortDateString());
+        HttpContext.Session.SetString("Image", user.Image ?? "not found");
+        HttpContext.Session.SetInt32("IsConnected", 1);
+        return View();
+    }
+
+    public IActionResult UpdateButtonUser([FromForm] UserUpdateForm userForm)
+    {
+        if (!ModelState.IsValid || userForm.Email == null || userForm.Password == null || userForm.Image == null)
+            return RedirectToAction("UpdateUser", "Connexion");
+        string? idstring = HttpContext.Session.GetString("id");
+        if (idstring == null) return RedirectToAction("UpdateUser", "Connexion");
+        int id = int.Parse(idstring);
+        string passwordHash = Argon2.Hash(userForm.Password);
+        ImageService imageUser = new(userForm.Image);
+        string? filenameImage = imageUser.FileName;
+        imageUser.DeleteImage(HttpContext.Session.GetString("Image") ?? "null");
+        imageUser.SaveImage();
+        _userService.Update(id, new UserEntity
+        {
+            Email = userForm.Email,
+            Firstname = HttpContext.Session.GetString("Firstname"),
+            Lastname = HttpContext.Session.GetString("Lastname"),
+            Birthdate = Convert.ToDateTime(HttpContext.Session.GetString("Birthdate")),
+            Password = passwordHash,
+            Image = filenameImage,
+            UpdatedAt = DateTime.Now
+        });
+
+        return RedirectToAction("UpdateUser", "Connexion");
     }
 }

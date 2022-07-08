@@ -29,6 +29,11 @@ public class UserService
         return _repositoryUser.GetById(id)?.ToDto();
     }
 
+    public bool Update(int id, UserEntity entity)
+    {
+        return _repositoryUser.Update(id, entity);
+    }
+
     public UserDto? GetByEmail(string email)
     {
         return _repositoryUser.GetByEmail(email)?.ToDto();
@@ -37,6 +42,11 @@ public class UserService
     public string? GetPassword(string? email)
     {
         return _repositoryUser.GetPassword(email);
+    }
+
+    public UserDto? GetById(int id)
+    {
+        return _repositoryUser.GetById(id)?.ToDto();
     }
 
     public bool Delete(int id)

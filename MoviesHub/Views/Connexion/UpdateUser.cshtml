@@ -1,0 +1,65 @@
+﻿@model MoviesHub.Models.UserForm
+
+@{
+    ViewData["Title"] = "Mettre à jour mon profil";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="vh-100 bg-primary">
+    <div class="container h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-lg-12 col-xl-11">
+                <div class="card text-black rounded">
+                    <div class="card-body p-md-5">
+                        <div class="row justify-content-center">
+                            <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
+
+                                <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Mettre à jour mon profil</p>
+
+                                @using (Html.BeginForm("UpdateButtonUser", "Connexion", FormMethod.Post,new {enctype= "multipart/form-data"}))
+                                {
+                                    <div class="d-flex flex-row align-items-center mb-4">
+                                        <div class="flex-fill mb-0">
+                                            @Html.EditorFor(m => m.Email, new { htmlAttributes = new { @class = "form-control", placeholder = "Nouvelle email"} })
+                                            @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="d-flex flex-row align-items-center mb-4">
+                                        <div class="flex-fill mb-0">
+                                            @Html.EditorFor(m => m.Password, new { htmlAttributes = new { @class = "form-control", placeholder = "Nouveau mot de passe" } })
+                                            @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="d-flex flex-row align-items-center mb-4">
+                                        <div class="flex-fill mb-0">
+                                            @Html.EditorFor(m => m.PasswordConfirm, new { htmlAttributes = new { @class = "form-control", placeholder = "Confirmer nouveau mot de passe" } })
+                                            @Html.ValidationMessageFor(m => m.PasswordConfirm, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="d-flex flex-row align-items-center mb-4">
+                                        <div class="flex-fill mb-0">
+                                            @Html.LabelFor(model => model.Image)
+                                            @Html.TextBoxFor(model => model.Image, new { type = "file", @class = "form-control" })
+                                        </div>
+                                    </div>
+                                    <div class="d-flex flex-column justify-content-center mx-4 mb-3 mb-lg-4">
+                                        @if (TempData["ErrorConnexion"] != null)
+                                        {
+                                            <small class="text-center text-danger fw-bold mb-3">@TempData["ErrorConnexion"]</small>
+                                        }
+                                        <input type="submit" value="Mettre à jour" class="btn btn-primary btn-lg"/>
+                                        <a class="btn text-primary text-decoration-none" asp-area="" asp-controller="Flux" asp-action="Index">Retour</a>
+                                    </div>
+                                }
+
+                            </div>
+                            <div class="col-md-10 col-lg-6 col-xl-7 d-flex align-items-center order-1 order-lg-2">
+                                <img src="https://cdn.dribbble.com/users/3584909/screenshots/6533886/10__1_.png" class="img-fluid" alt="Sample image">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

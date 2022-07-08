@@ -27,8 +27,8 @@ public class PublicationService
         return _repositoryPublication.GetById(id)?.ToDto();
     }
 
-    public PublicationDto? GetPublicationByUser(int creator)
+    public List<PublicationDto>? GetPublicationByUser(int creator)
     {
-        return _repositoryPublication.GetPublicationByUser(creator)?.ToDto();
+        return _repositoryPublication.GetPublicationByUser(creator).Select(x => x.ToDto()).ToList();
     }
 }

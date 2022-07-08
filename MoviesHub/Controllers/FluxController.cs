@@ -25,7 +25,7 @@ public class FluxController : Controller
         int creator = 0;
         if (id != null)
             creator = int.Parse(id);
-        PublicationDto? publication = _publicationService.GetPublicationByUser(creator);
+        List<PublicationDto>? publication = _publicationService.GetPublicationByUser(creator);
         Console.WriteLine(publication);
         return View(publication);
     }

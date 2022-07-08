@@ -44,15 +44,23 @@ public class RepositoryPublication : Repository<int, PublicationEntity>, IReposi
         cmd.AddParameter("@Title", entity.Title);
         cmd.AddParameter("@Description", entity.Description);
         cmd.AddParameter("@Image", entity.Image);
-
-        object res = Connection.ExecuteScalar(cmd) ?? false;
-        return (bool)res;
+        return Connection.ExecuteNonQuery(cmd) == 1;
     }
 
-    public PublicationEntity? GetPublicationByUser(int creator)
+    public List<PublicationEntity> GetPublicationByUser(int creator)
     {
         Command cmd = new("SELECT * FROM [Publication] WHERE Creator = @Creator");
         cmd.AddParameter("@Creator", creator);
-        return Connection.ExecuteReader(cmd, MapRecordToEntity, true).SingleOrDefault();
+        DataTable dt = Connection.GetDataTable(cmd);
+        EnumerableRowCollection<PublicationEntity> publications = dt.AsEnumerable().Select(row => new PublicationEntity
+        {
+            Id = row.Field<int>("Id"),
+            Title = row.Field<string>("Title"),
+            Description = row.Field<string>("Description"),
+            Image = row.Field<string>("Image"),
+            Creator = row.Field<int>("Creator"),
+            CreatedAt = row.Field<DateTime>("CreatedAt")
+        });
+        return publications.ToList();
     }
 }

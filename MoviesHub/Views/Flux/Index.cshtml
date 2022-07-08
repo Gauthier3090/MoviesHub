@@ -1,5 +1,6 @@
 ﻿@using Microsoft.AspNetCore.Http
-@model MoviesHub_BLL.DTO.PublicationDto
+@using MoviesHub_BLL.DTO
+@model IEnumerable<MoviesHub_BLL.DTO.PublicationDto>
 
 @inject IHttpContextAccessor Accessor
 
@@ -17,25 +18,28 @@
             </h4>
             <img class="img-fluid" src="https://localhost:7158/images/@Accessor.HttpContext?.Session.GetString("Image")" alt="Photo de profil de @Accessor.HttpContext?.Session.GetString("Lastname")">
             <p class="card-text">Bienvenue sur votre compte !</p>
-            <a href="#" class="btn btn-primary">Mettre à jour mon profil</a>
+            <a asp-action="UpdateUser" asp-controller="Connexion" class="btn btn-primary">Mettre à jour mon profil</a>
             <a class="btn btn-primary" asp-area="" asp-controller="Flux" asp-action="Create">Créer une publication</a>
         </div>
     </div>
-    <div class="d-flex justify-content-center flex-column mt-5 pb-3 bg-light text-black w-50 m-auto">
-        <div class="d-flex justify-content-between">
-            <p class="text-start p-3">Vous avez regardé ce film</p>
-            <p class="text-end p-3">@Model.CreatedAt</p>
-        </div>
-        <div class="d-flex justify-content-center align-items-center flex-column">
-            <p class="fw-bolder">@Model.Title</p>
-            <div class="col-md-3">
-                <img class="img-fluid" src="@Model.Image" alt="@Model.Title"/>
+    @foreach (PublicationDto publication in Model)
+    {
+        <div class="d-flex justify-content-center flex-column mt-5 pb-3 bg-light text-black w-50 m-auto">
+            <div class="d-flex justify-content-between">
+                <p class="text-start p-3">Vous avez regardé ce film</p>
+                <p class="text-end p-3">@publication.CreatedAt</p>
             </div>
-            <p class="w-50 text-center pt-3">@Model.Description</p>
-            <button class="btn btn-primary">Publier un commentaire</button>
+            <div class="d-flex justify-content-center align-items-center flex-column">
+                <p class="fw-bolder">@publication.Title</p>
+                <div class="col-md-3">
+                    <img class="img-fluid" src="@publication.Image" alt="@publication.Title"/>
+                </div>
+                <p class="w-50 text-center pt-3">@publication.Description</p>
+                <button class="btn btn-primary">Publier un commentaire</button>
+            </div>
+            <div class="d-flex justify-content-center align-items-center flex-column m-3 border-top">
+                <p class="fst-italic m-3">Vous n'avez aucun commentaire.</p>
+            </div>
         </div>
-        <div class="d-flex justify-content-center align-items-center flex-column m-3 border-top">
-            <p class="fst-italic m-3">Vous n'avez aucun commentaire.</p>
-        </div>
-    </div>
+    }
 </div>

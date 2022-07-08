@@ -4,5 +4,5 @@ namespace MoviesHub_DAL.Interfaces;
 
 public interface IRepositoryPublication : IRepository<int, PublicationEntity>
 {
-    public PublicationEntity? GetPublicationByUser(int creator);
+    public List<PublicationEntity> GetPublicationByUser(int creator);
 }

@@ -45,18 +45,19 @@ public class RepositoryUser : Repository<int, UserEntity>, IRepositoryUser
     public override bool Update(int id, UserEntity entity)
     {
         Command cmd = new("UPDATE [User]" +
-                          "SET email=email, password=password, firstname=firstname, lastname=lastname, age=age" +
-                          $" WHERE {TableId} = @Id");
+                          "SET email=@email, password=@password, firstname=@firstname, lastname=@lastname, birthdate=@birthdate, image=@image, updatedAt=@updatedAt" +
+                          $" WHERE {TableId} = @id");
 
-        cmd.AddParameter("email", entity.Email);
-        cmd.AddParameter("password", entity.Password);
-        cmd.AddParameter("firstname", entity.Firstname);
-        cmd.AddParameter("lastname", entity.Lastname);
-        cmd.AddParameter("age", entity.Birthdate);
-        cmd.AddParameter("Id", id);
+        cmd.AddParameter("@email", entity.Email);
+        cmd.AddParameter("@password", entity.Password);
+        cmd.AddParameter("@firstname", entity.Firstname);
+        cmd.AddParameter("@lastname", entity.Lastname);
+        cmd.AddParameter("@birthdate", entity.Birthdate);
+        cmd.AddParameter("@image", entity.Image);
+        cmd.AddParameter("@updatedAt", entity.UpdatedAt);
+        cmd.AddParameter("@id", id);
 
-        object res = Connection.ExecuteScalar(cmd) ?? false;
-        return (bool)res;
+        return Connection.ExecuteNonQuery(cmd) == 1;
     }
 
     public string? GetPassword(string? email)

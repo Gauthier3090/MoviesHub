@@ -9,7 +9,7 @@ public class ImageService
     public ImageService(IFormFile formFile)
     {
         ImageFile = formFile;
-        FileName = new Guid() + ImageFile.FileName;
+        FileName = Guid.NewGuid() + ImageFile.FileName;
     }
 
     private async Task<byte[]> GetBytes()
@@ -28,4 +28,11 @@ public class ImageService
         imageFile.Write(bytes, 0, bytes.Length);
         imageFile.Flush();
     }
+
+    public void DeleteImage(string fileImage)
+    {
+        string path = Path.Combine(_folderName, fileImage);
+        File.Delete(path);
+    }
+
 }
