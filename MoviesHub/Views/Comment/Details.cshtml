@@ -1,0 +1,10 @@
+﻿@using MoviesWorld_BLL.DTO
+@model IEnumerable<MoviesWorld_BLL.DTO.CommentDto>
+
+<div>
+    @foreach (CommentDto comment in Model)
+    {
+        <p>@comment.UserDto?.Firstname @comment.UserDto?.Lastname a commenté: @comment.Headline</p>
+        <p>@comment.Body</p>
+    }
+</div>

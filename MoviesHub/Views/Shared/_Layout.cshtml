@@ -14,13 +14,13 @@
         <header>
             <nav class="navbar navbar-expand-sm navbar-light bg-dark box-shadow">
                 <div class="container-fluid">
-                    <a class="navbar-brand text-white" asp-area="" asp-controller="Home" asp-action="Index">MoviesWorld</a>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                            aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
                     @if (Accessor.HttpContext?.Session.GetInt32("IsConnected") == 1) 
                     {
+                        <a class="navbar-brand text-white" asp-area="" asp-controller="Flux" asp-action="Index">MoviesWorld</a>
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                                aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
                         <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                             <ul class="navbar-nav flex-grow-1">
                                 <li class="nav-item">
@@ -34,6 +34,11 @@
                     }
                     else 
                     {
+                        <a class="navbar-brand text-white" asp-area="" asp-controller="Home" asp-action="Index">MoviesWorld</a>
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                                aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
                         <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                             <ul class="navbar-nav flex-grow-1">
                                 <li class="nav-item">
@@ -51,8 +56,8 @@
             </main>
         </div>
 
-        <footer class="bg-dark box-shadow footer text-muted">
-            <div class="text-white ms-3">
+        <footer class="bg-dark box-shadow footer text-muted position-absolute bottom-0 w-100">
+            <div class="text-white m-3">
                  &copy; 2022 - MoviesWorld
             </div>
         </footer>

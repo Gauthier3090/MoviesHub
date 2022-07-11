@@ -20,7 +20,6 @@ public class RepositoryComment: Repository<int, CommentEntity>, IRepositoryComme
             Headline = (string)record["Headline"],
             Body = (string)record["Body"],
             CreatedAt = (DateTime)record["CreatedAt"],
-            UpdatedAt = (DateTime)record["UpdatedAt"],
             User = (int)record["UserId"],
             Publication = (int)record["PublicationId"],
             IsActive = (bool)record["IsActive"]
@@ -47,5 +46,22 @@ public class RepositoryComment: Repository<int, CommentEntity>, IRepositoryComme
         cmd.AddParameter("@Body", entity.Body);
         cmd.AddParameter("@UpdatedAt", DateTime.Now);
         return Connection.ExecuteNonQuery(cmd) == 1;
+    }
+
+    public IEnumerable<CommentEntity> GetCommentsByPublication(int id)
+    {
+        Command cmd = new("SELECT * FROM [Comment] WHERE Id = @id");
+        cmd.AddParameter("@id", id);
+        DataTable dt = Connection.GetDataTable(cmd);
+        EnumerableRowCollection<CommentEntity> publications = dt.AsEnumerable().Select(row => new CommentEntity
+        {
+            Id = row.Field<int>("Id"),
+            Headline = row.Field<string>("Headline"),
+            Body = row.Field<string>("Body"),
+            User = row.Field<int>("UserId"),
+            Publication = row.Field<int>("PublicationId"),
+            CreatedAt = row.Field<DateTime>("CreatedAt")
+        });
+        return publications.ToList();
     }
 }

@@ -4,5 +4,5 @@ namespace MoviesWorld_DAL.Interfaces;
 
 public interface IRepositoryPublication : IRepository<int, PublicationEntity>
 {
-    public List<PublicationEntity> GetPublicationByUser(int creator);
+    public IEnumerable<PublicationEntity> GetPublicationByUser(int creator);
 }

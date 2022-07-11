@@ -9,5 +9,6 @@ public class CommentEntity
     public DateTime? UpdatedAt { get; set; }
     public bool IsActive { get; set; }
     public int User { get; set; }
+    public UserEntity? UserEntity { get; set; }
     public int Publication { get; set; }
 }

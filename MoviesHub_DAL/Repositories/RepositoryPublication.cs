@@ -47,7 +47,7 @@ public class RepositoryPublication : Repository<int, PublicationEntity>, IReposi
         return Connection.ExecuteNonQuery(cmd) == 1;
     }
 
-    public List<PublicationEntity> GetPublicationByUser(int creator)
+    public IEnumerable<PublicationEntity> GetPublicationByUser(int creator)
     {
         Command cmd = new("SELECT * FROM [Publication] WHERE Creator = @Creator");
         cmd.AddParameter("@Creator", creator);

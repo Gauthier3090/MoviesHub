@@ -1,4 +1,5 @@
-﻿using IMDbApiLib;
+﻿using System.Dynamic;
+using IMDbApiLib;
 using IMDbApiLib.Models;
 using Microsoft.AspNetCore.Mvc;
 using MoviesWorld.Models.Mappers;
@@ -13,10 +14,13 @@ public class FluxController : Controller
     private const string ApiKey = "k_zf6s6fta";
     private readonly CacheService _cache = new();
     private readonly PublicationService _publicationService;
+    private readonly CommentService _commentService;
 
-    public FluxController(PublicationService publicationService)
+
+    public FluxController(PublicationService publicationService, CommentService commentService)
     {
         _publicationService = publicationService;
+        _commentService = commentService;
     }
 
     public IActionResult Index()
@@ -25,9 +29,8 @@ public class FluxController : Controller
         int creator = 0;
         if (id != null)
             creator = int.Parse(id);
-        List<PublicationDto>? publication = _publicationService.GetPublicationByUser(creator);
-        Console.WriteLine(publication);
-        return View(publication);
+        IEnumerable<PublicationDto> publications = _publicationService.GetPublicationByUser(creator);
+        return View(publications);
     }
 
     public IActionResult Create()

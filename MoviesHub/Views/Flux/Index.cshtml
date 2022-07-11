@@ -1,6 +1,6 @@
 ﻿@using Microsoft.AspNetCore.Http
 @using MoviesWorld_BLL.DTO
-@model IEnumerable<MoviesWorld_BLL.DTO.PublicationDto>
+@model IEnumerable<PublicationDto>
 
 @inject IHttpContextAccessor Accessor
 
@@ -37,8 +37,9 @@
                 <p class="w-50 text-center pt-3">@publication.Description</p>
                 <a asp-action="Create" asp-controller="Comment" asp-route-id="@publication.Id" class="btn btn-primary">Publier un commentaire</a>
             </div>
-            <div class="d-flex justify-content-center align-items-center flex-column m-3 border-top">
-                <p class="fst-italic m-3">Vous n'avez aucun commentaire.</p>
+            <hr/>
+            <div class="d-flex justify-content-center align-items-center flex-column">
+                <a asp-action="Details" asp-controller="Comment" asp-route-id="@publication.Id" class="btn btn-primary">Voir les commentaires</a>
             </div>
         </div>
     }
