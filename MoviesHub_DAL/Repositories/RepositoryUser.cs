@@ -1,9 +1,9 @@
 ﻿using System.Data;
-using MoviesHub_DAL.Entities;
-using MoviesHub_DAL.Interfaces;
+using MoviesWorld_DAL.Entities;
+using MoviesWorld_DAL.Interfaces;
 using Tools.Connections;
 
-namespace MoviesHub_DAL.Repositories;
+namespace MoviesWorld_DAL.Repositories;
 
 public class RepositoryUser : Repository<int, UserEntity>, IRepositoryUser
 {

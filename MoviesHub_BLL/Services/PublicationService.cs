@@ -1,10 +1,10 @@
-﻿using MoviesHub_BLL.DTO;
-using MoviesHub_BLL.Mappers;
-using MoviesHub_DAL.Entities;
-using MoviesHub_DAL.Interfaces;
+﻿using MoviesWorld_BLL.Mappers;
+using MoviesWorld_DAL.Entities;
+using MoviesWorld_DAL.Interfaces;
+using MoviesWorld_BLL.DTO;
 
 
-namespace MoviesHub_BLL.Services;
+namespace MoviesWorld_BLL.Services;
 
 public class PublicationService
 {
@@ -27,7 +27,7 @@ public class PublicationService
         return _repositoryPublication.GetById(id)?.ToDto();
     }
 
-    public List<PublicationDto>? GetPublicationByUser(int creator)
+    public List<PublicationDto> GetPublicationByUser(int creator)
     {
         return _repositoryPublication.GetPublicationByUser(creator).Select(x => x.ToDto()).ToList();
     }

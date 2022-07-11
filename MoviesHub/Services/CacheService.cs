@@ -1,7 +1,7 @@
 ﻿using System.Runtime.Caching;
 using IMDbApiLib.Models;
 
-namespace MoviesHub.Services;
+namespace MoviesWorld.Services;
 
 public class CacheService
 {

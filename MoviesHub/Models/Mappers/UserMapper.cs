@@ -1,6 +1,6 @@
-﻿using MoviesHub_BLL.DTO;
+﻿using MoviesWorld_BLL.DTO;
 
-namespace MoviesHub.Models.Mappers;
+namespace MoviesWorld.Models.Mappers;
 
 public static class UserMapper
 {

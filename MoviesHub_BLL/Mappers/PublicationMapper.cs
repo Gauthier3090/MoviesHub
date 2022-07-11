@@ -1,7 +1,7 @@
-﻿using MoviesHub_BLL.DTO;
-using MoviesHub_DAL.Entities;
+﻿using MoviesWorld_DAL.Entities;
+using MoviesWorld_BLL.DTO;
 
-namespace MoviesHub_BLL.Mappers;
+namespace MoviesWorld_BLL.Mappers;
 
 public static class PublicationMapper
 {

@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-
-namespace MoviesHub_BLL.DTO;
+﻿namespace MoviesWorld_BLL.DTO;
 
 public class UserDto
 {

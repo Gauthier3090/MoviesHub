@@ -1,6 +1,6 @@
-﻿using MoviesHub_DAL.Entities;
+﻿using MoviesWorld_DAL.Entities;
 
-namespace MoviesHub_DAL.Interfaces;
+namespace MoviesWorld_DAL.Interfaces;
 
 public interface IRepositoryPublication : IRepository<int, PublicationEntity>
 {

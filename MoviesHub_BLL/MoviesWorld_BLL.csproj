@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MoviesHub_DAL\MoviesHub_DAL.csproj" />
+    <ProjectReference Include="..\MoviesHub_DAL\MoviesWorld_DAL.csproj" />
   </ItemGroup>
 
 </Project>

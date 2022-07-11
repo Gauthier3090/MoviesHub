@@ -1,4 +1,4 @@
-﻿namespace MoviesHub.Services;
+﻿namespace MoviesWorld.Services;
 
 public class ImageService
 {

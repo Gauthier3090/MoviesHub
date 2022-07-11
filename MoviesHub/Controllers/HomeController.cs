@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using MoviesHub.Models;
 using System.Diagnostics;
+using MoviesWorld.Models;
 
-namespace MoviesHub.Controllers
+namespace MoviesWorld.Controllers
 {
     public class HomeController : Controller
     {

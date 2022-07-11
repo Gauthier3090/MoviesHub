@@ -1,4 +1,4 @@
-﻿namespace MoviesHub_DAL.Interfaces;
+﻿namespace MoviesWorld_DAL.Interfaces;
 
 public interface IRepository<TKey, TEntity>
 {

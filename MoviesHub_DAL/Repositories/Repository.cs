@@ -1,8 +1,8 @@
 ﻿using System.Data;
-using MoviesHub_DAL.Interfaces;
+using MoviesWorld_DAL.Interfaces;
 using Tools.Connections;
 
-namespace MoviesHub_DAL.Repositories;
+namespace MoviesWorld_DAL.Repositories;
 
 public abstract class Repository<TKey, TEntity> : IRepository<TKey, TEntity> where TEntity : class
 {

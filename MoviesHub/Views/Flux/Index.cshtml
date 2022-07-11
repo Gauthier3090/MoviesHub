@@ -1,6 +1,6 @@
 ﻿@using Microsoft.AspNetCore.Http
-@using MoviesHub_BLL.DTO
-@model IEnumerable<MoviesHub_BLL.DTO.PublicationDto>
+@using MoviesWorld_BLL.DTO
+@model IEnumerable<MoviesWorld_BLL.DTO.PublicationDto>
 
 @inject IHttpContextAccessor Accessor
 
@@ -35,7 +35,7 @@
                     <img class="img-fluid" src="@publication.Image" alt="@publication.Title"/>
                 </div>
                 <p class="w-50 text-center pt-3">@publication.Description</p>
-                <button class="btn btn-primary">Publier un commentaire</button>
+                <a asp-action="Create" asp-controller="Comment" asp-route-id="@publication.Id" class="btn btn-primary">Publier un commentaire</a>
             </div>
             <div class="d-flex justify-content-center align-items-center flex-column m-3 border-top">
                 <p class="fst-italic m-3">Vous n'avez aucun commentaire.</p>

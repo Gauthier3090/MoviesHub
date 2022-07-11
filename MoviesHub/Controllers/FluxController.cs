@@ -1,12 +1,12 @@
 ﻿using IMDbApiLib;
 using IMDbApiLib.Models;
 using Microsoft.AspNetCore.Mvc;
-using MoviesHub.Models.Mappers;
-using MoviesHub.Services;
-using MoviesHub_BLL.DTO;
-using MoviesHub_BLL.Services;
+using MoviesWorld.Models.Mappers;
+using MoviesWorld.Services;
+using MoviesWorld_BLL.DTO;
+using MoviesWorld_BLL.Services;
 
-namespace MoviesHub.Controllers;
+namespace MoviesWorld.Controllers;
 
 public class FluxController : Controller
 {

@@ -1,13 +1,13 @@
 ﻿namespace MoviesWorld_BLL.DTO;
 
-public class PublicationDto
+public class CommentDto
 {
     public int Id { get; set; }
-    public string? Title { get; set; }
-    public string? Description { get; set; }
-    public string? Image { get; set; }
+    public string? Headline { get; set; }
+    public string? Body { get; set; }
     public DateTime CreatedAt { get; set; }
     public DateTime? UpdatedAt { get; set; }
     public bool IsActive { get; set; }
-    public int Creator { get; set; }
+    public int User { get; set; }
+    public int Publication { get; set; }
 }

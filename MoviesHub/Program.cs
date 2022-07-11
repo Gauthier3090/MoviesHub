@@ -1,9 +1,9 @@
-using MoviesHub_BLL.Services;
-using MoviesHub_DAL.Interfaces;
-using MoviesHub_DAL.Repositories;
+using MoviesWorld_BLL.Services;
 using Tools.Connections;
 using System.Data.SqlClient;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using MoviesWorld_DAL.Interfaces;
+using MoviesWorld_DAL.Repositories;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
@@ -24,8 +24,10 @@ builder.Services.AddTransient( _ =>
 builder.Services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddTransient<IRepositoryUser, RepositoryUser>();
 builder.Services.AddTransient<IRepositoryPublication, RepositoryPublication>();
+builder.Services.AddTransient<IRepositoryComment, RepositoryComment>();
 builder.Services.AddTransient<UserService>();
 builder.Services.AddTransient<PublicationService>();
+builder.Services.AddTransient<CommentService>();
 
 WebApplication app = builder.Build();
 

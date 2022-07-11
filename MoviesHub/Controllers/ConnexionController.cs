@@ -1,13 +1,13 @@
 ﻿using Isopoh.Cryptography.Argon2;
 using Microsoft.AspNetCore.Mvc;
-using MoviesHub.Models;
-using MoviesHub.Models.Mappers;
-using MoviesHub.Services;
-using MoviesHub_BLL.DTO;
-using MoviesHub_BLL.Services;
-using MoviesHub_DAL.Entities;
+using MoviesWorld.Models.Mappers;
+using MoviesWorld_BLL.DTO;
+using MoviesWorld_BLL.Services;
+using MoviesWorld_DAL.Entities;
+using MoviesWorld.Models;
+using MoviesWorld.Services;
 
-namespace MoviesHub.Controllers;
+namespace MoviesWorld.Controllers;
 
 public class ConnexionController : Controller
 {

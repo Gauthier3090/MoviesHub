@@ -1,18 +1,17 @@
-﻿using MoviesHub_BLL.DTO;
+﻿using MoviesWorld_BLL.DTO;
 
-namespace MoviesHub.Models.Mappers
+namespace MoviesWorld.Models.Mappers;
+
+public static class PublicationMapper
 {
-    public static class PublicationMapper
+    public static Publication ToModel(this PublicationDto dto)
     {
-        public static Publication ToModel(this PublicationDto dto)
+        return new Publication
         {
-            return new Publication
-            {
-                Id = dto.Id,
-                Title = dto.Title,
-                Description = dto.Description,
-                Image = dto.Image
-            };
-        }
+            Id = dto.Id,
+            Title = dto.Title,
+            Description = dto.Description,
+            Image = dto.Image
+        };
     }
 }

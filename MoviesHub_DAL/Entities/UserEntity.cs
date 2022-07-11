@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-
-namespace MoviesHub_DAL.Entities;
+﻿namespace MoviesWorld_DAL.Entities;
 
 public class UserEntity
 {
