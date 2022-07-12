@@ -50,7 +50,7 @@ public class RepositoryComment: Repository<int, CommentEntity>, IRepositoryComme
 
     public IEnumerable<CommentEntity> GetCommentsByPublication(int id)
     {
-        Command cmd = new("SELECT * FROM [Comment] WHERE Id = @id");
+        Command cmd = new("SELECT * FROM [Comment] WHERE PublicationId = @id");
         cmd.AddParameter("@id", id);
         DataTable dt = Connection.GetDataTable(cmd);
         EnumerableRowCollection<CommentEntity> publications = dt.AsEnumerable().Select(row => new CommentEntity
@@ -62,6 +62,6 @@ public class RepositoryComment: Repository<int, CommentEntity>, IRepositoryComme
             Publication = row.Field<int>("PublicationId"),
             CreatedAt = row.Field<DateTime>("CreatedAt")
         });
-        return publications.ToList();
+        return publications;
     }
 }

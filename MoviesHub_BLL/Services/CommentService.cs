@@ -17,22 +17,37 @@ public class CommentService
         _repositoryUser = repositoryUser;
     }
 
-    public CommentDto? Insert(string headline, string body, int user, int publication)
+    public CommentDto? Insert(string headline, string body, int userId, int publication)
     {
+        UserDto? user = _repositoryUser.GetById(userId)?.ToDto();
+        if (user is null)
+        {
+            throw new ArgumentOutOfRangeException(nameof(userId));
+        }
+
         int id = _repositoryComment.Insert(new CommentEntity
         {
             Headline = headline,
             Body = body,
-            User = user,
+            User = userId,
             Publication = publication
         });
-        return _repositoryComment.GetById(id)?.ToDto();
+
+        return _repositoryComment.GetById(id)?.ToDto(user);
     }
 
     public IEnumerable<CommentDto> GetCommentsByPublication(int id)
     {
         IEnumerable<CommentEntity> res = _repositoryComment.GetCommentsByPublication(id);
-        foreach (CommentEntity item in res) item.UserEntity = _repositoryUser.GetById(item.User);
-        return res.Select(x => x.ToDto());
+
+
+        foreach (CommentEntity item in res)
+        { 
+            UserDto user = _repositoryUser.GetById(item.User)!.ToDto();
+            CommentDto comment = item.ToDto(user);
+       
+
+            yield return comment;
+        }
     }
 }

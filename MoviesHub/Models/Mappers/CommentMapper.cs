@@ -11,7 +11,7 @@ public static class CommentMapper
             Id = dto.Id,
             Headline = dto.Headline,
             Body = dto.Body,
-            User = dto.User,
+            User = dto.User!.Id,
             Publication = dto.Publication
         };
     }

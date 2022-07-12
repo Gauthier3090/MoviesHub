@@ -5,7 +5,7 @@ namespace MoviesWorld_BLL.Mappers;
 
 public static class CommentMapper
 {
-    public static CommentDto ToDto(this CommentEntity entity)
+    public static CommentDto ToDto(this CommentEntity entity, UserDto user)
     {
         return new CommentDto
         {
@@ -14,7 +14,7 @@ public static class CommentMapper
             Body = entity.Body,
             CreatedAt = entity.CreatedAt,
             UpdatedAt = entity.UpdatedAt,
-            User = entity.User,
+            User = user,
             Publication = entity.Publication
         };
     }
@@ -28,7 +28,7 @@ public static class CommentMapper
             Body = dto.Body,
             CreatedAt = dto.CreatedAt,
             UpdatedAt = dto.UpdatedAt,
-            User = dto.User,
+            User = dto.User!.Id,
             Publication = dto.Publication
         };
     }

@@ -63,4 +63,12 @@ public class RepositoryPublication : Repository<int, PublicationEntity>, IReposi
         });
         return publications.ToList();
     }
+
+    public string? PublicationExist(int id)
+    {
+        Command cmd = new("SELECT Title FROM [Publication] WHERE Id=@id");
+        cmd.AddParameter("@id", id);
+        object? res = Connection.ExecuteScalar(cmd);
+        return res?.ToString();
+    }
 }

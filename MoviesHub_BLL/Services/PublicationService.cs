@@ -31,4 +31,9 @@ public class PublicationService
     {
         return _repositoryPublication.GetPublicationByUser(creator).Select(x => x.ToDto());
     }
+
+    public string? PublicationExist(int id)
+    {
+        return _repositoryPublication.PublicationExist(id);
+    }
 }

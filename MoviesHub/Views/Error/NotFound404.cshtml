@@ -1,0 +1,14 @@
+﻿@{
+    ViewData["Title"] = "Error 404 - Not Found";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="d-flex align-items-center justify-content-center vh-100">
+    <div class="text-center">
+        <h1 class="display-1 fw-bold">404</h1>
+        <p class="fs-3"> <span class="text-danger">Opps!</span> Page not found.</p>
+        <p class="lead">
+            La page que tu recherches n'existe pas.
+        </p>
+        <a asp-controller="Flux" asp-action="" class="btn btn-outline-light">Retour</a>
+    </div>
+</div>

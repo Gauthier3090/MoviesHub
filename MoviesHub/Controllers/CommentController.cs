@@ -8,10 +8,12 @@ namespace MoviesWorld.Controllers;
 public class CommentController : Controller
 {
     private readonly CommentService _commentService;
+    private readonly PublicationService _publicationService;
 
-    public CommentController(CommentService commentService)
+    public CommentController(CommentService commentService, PublicationService publicationService)
     {
         _commentService = commentService;
+        _publicationService = publicationService;
     }
 
     [Route("Publication/{id}/Comment/Create")]
@@ -37,6 +39,8 @@ public class CommentController : Controller
     [Route("Publication/{id}/Comment/Details")]
     public IActionResult Details(int id)
     {
+        if (_publicationService.PublicationExist(id) == null)
+            return RedirectToAction("NotFound404", "Error");
         IEnumerable<CommentDto> comments = _commentService.GetCommentsByPublication(id);
         return View(comments);
     }
