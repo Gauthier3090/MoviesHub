@@ -74,4 +74,11 @@ public class RepositoryUser : Repository<int, UserEntity>, IRepositoryUser
         cmd.AddParameter("@email", email);
         return Connection.ExecuteReader(cmd, MapRecordToEntity, true).SingleOrDefault();
     }
+
+    public UserEntity? GetByFirstName(string? firstname)
+    {
+        Command cmd = new("SELECT * FROM [User] WHERE firstname=@firstname");
+        cmd.AddParameter("@firstname", firstname);
+        return Connection.ExecuteReader(cmd, MapRecordToEntity, true).SingleOrDefault();
+    }
 }

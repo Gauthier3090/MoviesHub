@@ -8,7 +8,6 @@
         <title>@ViewData["Title"] - MoviesWorld</title>
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
         <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
-        <link rel="stylesheet" href="~/MoviesHub.styles.css" asp-append-version="true"/>
     </head>
     <body class="bg-primary">
         <header>
@@ -25,6 +24,9 @@
                             <ul class="navbar-nav flex-grow-1">
                                 <li class="nav-item">
                                     <a class="nav-link text-white" asp-area="" asp-controller="Flux" asp-action="Index">Mon Flux</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-white" asp-area="" asp-controller="Follow" asp-action="Index">Abonnements</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link text-white" asp-area="" asp-controller="Connexion" asp-action="Logout">Se déconnecter</a>

@@ -4,6 +4,9 @@ namespace MoviesWorld_DAL.Interfaces;
 
 public interface IRepositoryUser : IRepository<int, UserEntity>
 {
-    UserEntity? GetByEmail(string? email);
-    string? GetPassword(string? email);
+    public UserEntity? GetByEmail(string? email);
+    public string? GetPassword(string? email);
+    public UserEntity? GetByFirstName(string? firstname);
+
+    public IEnumerable<UserEntity> Search(string firstname);
 }
