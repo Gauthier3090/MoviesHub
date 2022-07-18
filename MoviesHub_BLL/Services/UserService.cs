@@ -59,6 +59,11 @@ public class UserService
         return _repositoryUser.GetAll().Select(x => x.ToDto());
     }
 
+    public IEnumerable<UserDto?> Search(string firstname)
+    {
+        return _repositoryUser.Search(firstname).Select(x => x.ToDto());
+    }
+
     public bool Delete(int id)
     {
         return _repositoryUser.Delete(id);

@@ -21,10 +21,9 @@ public class FollowController : Controller
 
     public JsonResult SearchUser(string? search)
     {
-        IEnumerable<UserDto?> user = _userService.GetAll();
         if (search == null)
             return Json(null);
-        user = user.Where(x => x!.Firstname!.StartsWith(search));
+        IEnumerable<UserDto?> user = _userService.Search(search);
         return Json(new { message = user });
     }
 }

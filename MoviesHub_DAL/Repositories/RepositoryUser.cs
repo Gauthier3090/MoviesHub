@@ -1,4 +1,6 @@
 ﻿using System.Data;
+using System.Text.RegularExpressions;
+using Microsoft.VisualBasic;
 using MoviesWorld_DAL.Entities;
 using MoviesWorld_DAL.Interfaces;
 using Tools.Connections;
@@ -80,5 +82,29 @@ public class RepositoryUser : Repository<int, UserEntity>, IRepositoryUser
         Command cmd = new("SELECT * FROM [User] WHERE firstname=@firstname");
         cmd.AddParameter("@firstname", firstname);
         return Connection.ExecuteReader(cmd, MapRecordToEntity, true).SingleOrDefault();
+    }
+
+    public IEnumerable<UserEntity> Search(string firstname)
+    {
+        string regexBarChar = "[%_]";
+
+        string firstnameClean = Regex.Replace(firstname, regexBarChar, String.Empty, RegexOptions.None);
+        if (string.IsNullOrWhiteSpace((firstnameClean)))
+        {
+            return Enumerable.Empty<UserEntity>();
+        }
+
+
+        Command cmd = new("SELECT * FROM [User] WHERE firstname LIKE @firstname");
+        cmd.AddParameter("@firstname", firstnameClean + "%");
+        DataTable dt = Connection.GetDataTable(cmd);
+        EnumerableRowCollection<UserEntity> users = dt.AsEnumerable().Select(row => new UserEntity
+        {
+            Id = row.Field<int>("Id"),
+            Firstname = row.Field<string>("Firstname"),
+            Lastname = row.Field<string>("Lastname"),
+            Image = row.Field<string>("Image"),
+        });
+        return users.ToList();
     }
 }
