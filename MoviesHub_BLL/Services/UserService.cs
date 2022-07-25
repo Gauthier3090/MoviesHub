@@ -29,9 +29,9 @@ public class UserService
         return _repositoryUser.GetById(id)?.ToDto();
     }
 
-    public bool Update(int id, UserEntity entity)
+    public bool UpdateImage(int id, string? filenameimage)
     {
-        return _repositoryUser.Update(id, entity);
+        return _repositoryUser.UpdateImage(id, filenameimage);
     }
 
     public UserDto? GetByEmail(string email)

@@ -42,7 +42,7 @@ public class FollowController : Controller
         if (user == null) return RedirectToAction("Index", "Follow");
         int target = int.Parse(user);
         Console.WriteLine(_followService.FollowerExist(target, follow));
-        if (follow != target && _followService.FollowerExist(target, follow) != 0)
+        if (follow != target && _followService.FollowerExist(target, follow) == 0)
             _followService.Insert(target, follow);
         return RedirectToAction("Index", "Follow");
     }

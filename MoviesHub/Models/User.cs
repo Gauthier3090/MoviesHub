@@ -94,3 +94,9 @@ public class UserUpdateForm
     [Required(ErrorMessage = "Choissisez une photo de profil.")]
     [DisplayName("Photo de profil")] public IFormFile? Image { get; set; }
 }
+
+public class UserUpdateImage
+{
+    [Required(ErrorMessage = "Choissisez une photo de profil.")]
+    [DisplayName("Photo de profil")] public IFormFile? Image { get; set; }
+}

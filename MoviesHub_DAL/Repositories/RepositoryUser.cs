@@ -62,6 +62,19 @@ public class RepositoryUser : Repository<int, UserEntity>, IRepositoryUser
         return Connection.ExecuteNonQuery(cmd) == 1;
     }
 
+    public bool UpdateImage(int id, string? filenameimage)
+    {
+        Command cmd = new("UPDATE [User]" +
+                          "SET image=@image, updatedAt=@updatedAt" +
+                          $" WHERE {TableId} = @id");
+
+        cmd.AddParameter("@image", filenameimage);
+        cmd.AddParameter("@updatedAt", DateTime.Now);
+        cmd.AddParameter("@id", id);
+
+        return Connection.ExecuteNonQuery(cmd) == 1;
+    }
+
     public string? GetPassword(string? email)
     {
         Command cmd = new("SELECT password FROM [User] WHERE email=@email");

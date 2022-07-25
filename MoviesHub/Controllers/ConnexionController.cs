@@ -83,42 +83,31 @@ public class ConnexionController : Controller
 
     public IActionResult UpdateUser()
     {
-        string? idstring = HttpContext.Session.GetString("id");
+        string? idstring = HttpContext.Session.GetString("Id");
         if (idstring == null) return View();
         int id = int.Parse(idstring);
         UserDto? user = _userService.GetById(id);
         if (user == null) return View();
-        HttpContext.Session.SetString("Email", user.Email ?? "not found");
-        HttpContext.Session.SetString("Firstname", user.Firstname ?? "not found");
-        HttpContext.Session.SetString("Lastname", user.Lastname ?? "not found");
-        HttpContext.Session.SetString("Birthdate", user.Birthdate.ToShortDateString());
         HttpContext.Session.SetString("Image", user.Image ?? "not found");
         HttpContext.Session.SetInt32("IsConnected", 1);
         return View();
     }
 
-    public IActionResult UpdateButtonUser([FromForm] UserUpdateForm userForm)
+    public IActionResult UpdateButtonUser([FromForm] UserUpdateImage userForm)
     {
-        if (!ModelState.IsValid || userForm.Email == null || userForm.Password == null || userForm.Image == null)
+        if (!ModelState.IsValid || userForm.Image == null)
             return RedirectToAction("UpdateUser", "Connexion");
-        string? idstring = HttpContext.Session.GetString("id");
+
+        string? idstring = HttpContext.Session.GetString("Id");
         if (idstring == null) return RedirectToAction("UpdateUser", "Connexion");
         int id = int.Parse(idstring);
-        string passwordHash = Argon2.Hash(userForm.Password);
+
         ImageService imageUser = new(userForm.Image);
         string? filenameImage = imageUser.FileName;
         imageUser.DeleteImage(HttpContext.Session.GetString("Image") ?? "null");
         imageUser.SaveImage();
-        _userService.Update(id, new UserEntity
-        {
-            Email = userForm.Email,
-            Firstname = HttpContext.Session.GetString("Firstname"),
-            Lastname = HttpContext.Session.GetString("Lastname"),
-            Birthdate = Convert.ToDateTime(HttpContext.Session.GetString("Birthdate")),
-            Password = passwordHash,
-            Image = filenameImage,
-            UpdatedAt = DateTime.Now
-        });
+
+        _userService.UpdateImage(id, filenameImage);
 
         return RedirectToAction("UpdateUser", "Connexion");
     }
