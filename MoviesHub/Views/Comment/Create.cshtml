@@ -27,7 +27,7 @@
 
                                     <div class="d-flex flex-row align-items-center mb-4">
                                         <div class="flex-fill mb-0">
-                                            <textarea asp-for="Body" placeholder="Description du commentaire" class="form-control" rows="5" style="resize: none"></textarea>
+                                            <textarea maxlength="5000" asp-for="Body" placeholder="Description du commentaire" class="form-control" rows="5" style="resize: none"></textarea>
                                             <span asp-validation-for="Body" class="text-danger"></span>
                                         </div>
                                     </div>

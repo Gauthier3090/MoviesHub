@@ -22,6 +22,6 @@ public class CommentForm
     public string? Headline { get; set; }
 
     [Required(ErrorMessage = "Veuillez entrer une description.")]
-    [StringLength(300)]
+    [StringLength(5000)]
     public string? Body { get; set; }
 }

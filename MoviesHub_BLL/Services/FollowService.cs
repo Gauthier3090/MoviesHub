@@ -27,4 +27,24 @@ public class FollowService
         });
         return _repositoryFollow.GetById(id)?.ToDto(targetDto, followDto);
     }
+
+    public IEnumerable<FollowDto> GetFollows(int target)
+    {
+        IEnumerable<FollowEntity> res = _repositoryFollow.GetFollows(target);
+
+
+        foreach (FollowEntity item in res)
+        {
+            UserDto targetDto = _repositoryUser.GetById(item.Target)!.ToDto();
+            UserDto followDto = _repositoryUser.GetById(item.Follower)!.ToDto();
+            FollowDto user = _repositoryFollow.GetById(item.Target)!.ToDto(targetDto, followDto);
+
+            yield return user;
+        }
+    }
+
+    public int? FollowerExist(int target, int follower)
+    {
+        return _repositoryFollow.FollowerExist(target, follower);
+    }
 }

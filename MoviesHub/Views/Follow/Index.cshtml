@@ -1,12 +1,42 @@
-﻿@{
+﻿@using MoviesWorld_BLL.DTO
+@model IEnumerable<MoviesWorld_BLL.DTO.FollowDto>
+
+@{
     ViewData["Title"] = "Abonnements";
 }
+
 <div class="d-flex justify-content-center align-items-center">
     <input id="search" class="form-control w-25 m-5" type="text" placeholder="Entrez un prénom..."/>
 </div>
+
 <div id="div-table">
     <table id="table-person"></table>
 </div>
+
+<div>
+    <table class="table table-striped table-dark w-50 m-auto mt-5">
+        <thead>
+        <tr>
+            <th scope="col">Photo de profil</th>
+            <th scope="col">Prénom</th>
+            <th scope="col">Nom</th>
+            <th scope="col">Action</th>
+        </tr>
+        </thead>
+        <tbody>
+            @foreach (FollowDto item in Model)
+            {
+                <tr class="align-baseline fw-bold">
+                    <td class="w-25"><img class="img-fluid w-25" src="images/@item.Follow!.Image" alt="@item.Follow.Lastname"/></td>
+                    <td>@item.Follow!.Firstname</td>
+                    <td>@item.Follow!.Lastname</td>
+                    <td class="text-center"><a class="btn btn-primary">Désabonner</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
 
 @section Scripts
 {

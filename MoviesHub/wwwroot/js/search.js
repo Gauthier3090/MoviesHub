@@ -1,17 +1,18 @@
-﻿function addPerson(firstname, lastname, tbody) {
+﻿function addPerson(firstname, lastname, tbody, id) {
     const row2 = document.createElement("tr");
     const rowFirstname = document.createElement("td");
     rowFirstname.innerHTML = firstname;
     const rowLastname = document.createElement("td");
     rowLastname.innerHTML = lastname;
-    const rowButton = document.createElement("a");
-    rowButton.innerText = "Ajouter";
-    rowButton.classList.add("btn");
-    rowButton.classList.add("btn-success");
+    const rowButton = document.createElement("td");
+    const rowButtonElement = document.createElement("a");
+    rowButtonElement.innerText = "Ajouter";
     rowButton.classList.add("text-center");
+    rowButtonElement.classList.add("btn");
+    rowButtonElement.classList.add("btn-primary");
+    rowButtonElement.setAttribute("href", "Follow/AddUser/" + id);
 
-
-
+    rowButton.appendChild(rowButtonElement);
     row2.appendChild(rowFirstname);
     row2.appendChild(rowLastname);
     row2.appendChild(rowButton);
@@ -61,13 +62,14 @@ searchElement.addEventListener("keyup",
                 table.setAttribute("id", "table-person");
                 table.classList.add("table");
                 table.classList.add("table-striped");
+                table.classList.add("table-dark");
                 table.classList.add("w-50");
                 table.classList.add("m-auto");
 
                 addHeader(thead);
 
                 for (const target of message) {
-                    addPerson(target.firstname, target.lastname, tbody);
+                    addPerson(target.firstname, target.lastname, tbody, target.id);
                 }
 
                 document.getElementById("div-table").appendChild(table);
