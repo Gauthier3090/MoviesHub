@@ -5,7 +5,7 @@
     ViewData["Title"] = "Ajouter un commentaire";
 }
 
-<section class="vh-100 bg-primary">
+<section class="vh-100">
     <div class="container h-100">
         <div class="row d-flex justify-content-center align-items-center h-100">
             <div class="col-lg-12 col-xl-11">
@@ -33,6 +33,7 @@
                                     </div>
                                     <div class="d-flex flex-column justify-content-center mx-4 mb-3 mb-lg-4">
                                         <input type="submit" value="Publier" class="btn btn-primary btn-lg"/>
+                                        <a asp-controller="Flux" asp-action="Index" class="btn btn-lg bg-primary text-white mt-3">Retour</a>
                                     </div>
                                 }
 

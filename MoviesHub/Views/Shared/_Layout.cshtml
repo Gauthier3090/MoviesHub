@@ -9,13 +9,13 @@
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
         <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
     </head>
-    <body class="bg-primary">
+    <body class="bg-white">
         <header>
-            <nav class="navbar navbar-expand-sm navbar-light bg-dark box-shadow">
+            <nav class="navbar navbar-expand-lg navbar-dark box-shadow border-bottom w-75 m-auto">
                 <div class="container-fluid">
                     @if (Accessor.HttpContext?.Session.GetInt32("IsConnected") == 1) 
                     {
-                        <a class="navbar-brand text-white" asp-area="" asp-controller="Flux" asp-action="Index">MoviesWorld</a>
+                        <a class="navbar-brand text-dark" asp-area="" asp-controller="Flux" asp-action="Index">MoviesWorld</a>
                         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                                 aria-expanded="false" aria-label="Toggle navigation">
                             <span class="navbar-toggler-icon"></span>
@@ -23,20 +23,20 @@
                         <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                             <ul class="navbar-nav flex-grow-1">
                                 <li class="nav-item">
-                                    <a class="nav-link text-white" asp-area="" asp-controller="Flux" asp-action="Index">Mon Flux</a>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Flux" asp-action="Index">Mon Flux</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link text-white" asp-area="" asp-controller="Follow" asp-action="Index">Abonnements</a>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Follow" asp-action="Index">Abonnements</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link text-white" asp-area="" asp-controller="Connexion" asp-action="Logout">Se déconnecter</a>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Connexion" asp-action="Logout">Se déconnecter</a>
                                 </li>
                             </ul>
                         </div>
                     }
                     else 
                     {
-                        <a class="navbar-brand text-white" asp-area="" asp-controller="Home" asp-action="Index">MoviesWorld</a>
+                        <a class="navbar-brand text-dark " asp-area="" asp-controller="Home" asp-action="Index">MoviesWorld</a>
                         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                                 aria-expanded="false" aria-label="Toggle navigation">
                             <span class="navbar-toggler-icon"></span>
@@ -44,7 +44,7 @@
                         <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                             <ul class="navbar-nav flex-grow-1">
                                 <li class="nav-item">
-                                    <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                                 </li>
                             </ul>
                         </div>
@@ -58,8 +58,8 @@
             </main>
         </div>
 
-        <footer class="bg-dark box-shadow footer text-muted position-absolute bottom-0 w-100">
-            <div class="text-white m-3">
+        <footer class="box-shadow footer text-muted position-absolute bottom-0 w-100 border-top">
+            <div class="text-black m-3">
                  &copy; 2022 - MoviesWorld
             </div>
         </footer>

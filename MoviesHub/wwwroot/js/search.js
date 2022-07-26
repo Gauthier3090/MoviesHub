@@ -7,9 +7,10 @@
     const rowButton = document.createElement("td");
     const rowButtonElement = document.createElement("a");
     rowButtonElement.innerText = "Ajouter";
+    row2.classList.add("fw-bold");
     rowButton.classList.add("text-center");
     rowButtonElement.classList.add("btn");
-    rowButtonElement.classList.add("btn-primary");
+    rowButtonElement.classList.add("btn-outline-dark");
     rowButtonElement.setAttribute("href", "Follow/AddUser/" + id);
 
     rowButton.appendChild(rowButtonElement);
@@ -69,8 +70,7 @@ searchElement.addEventListener("keyup",
                 table.appendChild(tbody);
                 table.setAttribute("id", "table-person");
                 table.classList.add("table");
-                table.classList.add("table-striped");
-                table.classList.add("table-dark");
+                table.classList.add("table-white");
                 table.classList.add("w-50");
                 table.classList.add("m-auto");
 

@@ -4,10 +4,10 @@
     ViewData["Title"] = "Créer une publication";
 }
 
-<section class="bg-primary">
+<section>
     
-    <div class="d-flex flex-column justify-content-center align-items-center bg-primary text-white pt-5 pb-5">
-        <h1 class="text-center text-white">Créer une publication</h1>
+    <div class="d-flex flex-column justify-content-center align-items-center text-white pt-5 pb-5">
+        <h1 class="text-center text-dark">Créer une publication</h1>
         <div class="col-md-4 pt-5 pb-5">
             <form asp-action="MoviesList">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -16,7 +16,7 @@
                     <span asp-validation-for="Title" class="text-danger"></span>
                 </div>
                 <div class="input-group">
-                    <input type="submit" value="Cherchez" class="btn btn-outline-light w-50 m-auto my-2"/>
+                    <input type="submit" value="Cherchez" class="btn btn-outline-dark w-50 m-auto my-2"/>
                 </div>
             </form>
         </div>

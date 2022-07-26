@@ -1,20 +1,31 @@
 ﻿@using MoviesWorld_BLL.DTO
 @model IEnumerable<MoviesWorld_BLL.DTO.CommentDto>
 
-<div class="d-flex flex-column vh-100">
-    @foreach (CommentDto comment in Model)
-    {
-        <div class="d-flex bg-white shadow w-50 m-auto mt-3 mb-3">
-            <div class="d-flex flex-column align-items-center justify-content-center mt-3">
-                <img class="img-fluid rounded-circle w-25" src="https://localhost:7158/images/@comment.User?.Image" alt="photo de profil de @comment.User?.Lastname"/>
-                <p class="fw-bold">@comment.User?.Firstname @comment.User?.Lastname</p>
+@if (Model.Any())
+{
+    <div class="d-flex flex-column vh-100">
+        @foreach (CommentDto comment in Model)
+        {
+            <div class="d-lg-flex d-md-none bg-white shadow w-50 m-auto">
+                <div class="d-flex flex-column align-items-center justify-content-center mt-3">
+                    <img class="img-fluid w-50" src="https://localhost:7158/images/@comment.User?.Image" alt="photo de profil de @comment.User?.Lastname"/>
+                    <p class="fw-bold">@comment.User?.Firstname @comment.User?.Lastname</p>
+                </div>
+                <div class="container-fluid m-auto p-3">
+                    <p class="text-center fw-bold">@comment.Headline</p>
+                    <textarea class="form-control" rows="10" style="resize: none">@comment.Body</textarea>
+                    <p class="text-end fst-italic mt-3">@comment.CreatedAt.ToShortDateString()</p>
+                </div>
             </div>
-            <div class="container-fluid m-auto p-3">
-                <p class="text-center fw-bold">@comment.Headline</p>
-                <p class="text-start">@comment.Body</p>
-                <p class="text-end fst-italic">@comment.CreatedAt.ToShortDateString()</p>
-            </div>
-        </div>
-    }
-    <a asp-controller="Flux" asp-action="Index" class="btn btn-outline-light w-25 m-auto">Retour</a>
-</div>
+        }
+        }
+        <a asp-controller="Flux" asp-action="Index" class="btn btn-outline-dark w-25 m-auto">Retour</a>
+    </div>
+}
+else
+{
+    <div class="d-flex flex-column justify-content-center align-items-center vh-100">
+        <p class="text-center fw-bold fs-3">Il n'y a aucun commentaire pour le moment !</p>
+        <a asp-controller="Flux" asp-action="Index" class="btn btn-lg btn-outline-dark">Retour</a>
+    </div>
+}
