@@ -69,15 +69,27 @@ public class ConnexionController : Controller
     public IActionResult Register([FromForm] UserForm userForm)
     {
         if (!ModelState.IsValid || userForm.Password == null || userForm.Email == null || userForm.Firstname == null ||
-            userForm.Lastname == null || userForm.Image == null) return View(userForm);
+            userForm.Lastname == null || userForm.Image == null)
+        {
+            TempData["error"] = "Veuillez remplir tous les champs";
+            return View(userForm);
+        }
+        if (_userService.GetByEmail(userForm.Email) != null)
+        {
+            TempData["error"] = "L'email est déjà utilisé !";
+            return View(userForm);
+        }
         string passwordHash = Argon2.Hash(userForm.Password);
         ImageService imageUser = new(userForm.Image);
         string? filenameImage = imageUser.FileName;
         imageUser.SaveImage();
         if (filenameImage != null)
+        {
             _userService.Insert(userForm.Email, userForm.Firstname, userForm.Lastname, passwordHash,
                 userForm.Birthdate, filenameImage)?.ToModel();
-        return RedirectToAction("Index", "Connexion");
+            TempData["success"] = "Vous êtes désormais inscrit !";
+        }
+        return View();
     }
 
     public IActionResult UpdateUser()

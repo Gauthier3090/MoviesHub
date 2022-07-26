@@ -18,7 +18,7 @@ public class FollowController : Controller
     }
 
     public IActionResult Index()
-    {
+    {       
         string? user = HttpContext.Session.GetString("Id");
         if (user == null) return View();
         int target = int.Parse(user);
@@ -31,7 +31,7 @@ public class FollowController : Controller
     {
         if (search == null)
             return Json(null);
-        IEnumerable<UserDto?> user = _userService.Search(search);
+        IEnumerable<UserDto?> user = _userService.Search(search).OrderBy(x => x?.Firstname);
         return Json(new { message = user });
     }
 

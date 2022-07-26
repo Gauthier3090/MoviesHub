@@ -10,7 +10,7 @@
 
 
 <div class="d-flex flex-column justify-content-center align-items-center text-white pt-5 pb-5">
-    <div class="col-md-3">
+    <div class="card col-md-3 bg-light shadow">
         <div class="card-body text-black text-center">
             <h4 class="card-title">
                 @Accessor.HttpContext?.Session.GetString("Firstname")
@@ -18,13 +18,13 @@
             </h4>
             <img class="img-fluid w-50" src="https://localhost:7158/images/@Accessor.HttpContext?.Session.GetString("Image")" alt="Photo de profil de @Accessor.HttpContext?.Session.GetString("Lastname")">
             <p class="card-text">Bienvenue sur votre compte !</p>
-            <a asp-action="UpdateUser" asp-controller="Connexion" class="btn btn-primary">Mettre à jour mon profil</a>
-            <a class="btn btn-primary" asp-area="" asp-controller="Flux" asp-action="Create">Créer une publication</a>
+            <a asp-action="UpdateUser" asp-controller="Connexion" class="btn btn-outline-dark">Mettre à jour mon profil</a>
+            <a class="btn btn-outline-dark" asp-area="" asp-controller="Flux" asp-action="Create">Créer une publication</a>
         </div>
     </div>
     @foreach (PublicationDto publication in Model)
     {
-        <div class="d-flex justify-content-center flex-column mt-5 pb-3 border text-black w-50 m-auto">
+        <div class="d-flex col-sm-12 col-md-5 justify-content-center flex-column mt-5 pb-3 border text-black m-auto bg-light shadow">
             <div class="d-flex justify-content-between">
                 @if (@publication.Creator.ToString() == @Accessor.HttpContext?.Session.GetString("Id"))
                 {
@@ -42,8 +42,8 @@
                     <img class="img-fluid" src="@publication.Image" alt="@publication.Title"/>
                 </div>
                 <p class="w-50 text-center pt-3">@publication.Description</p>
-                <a asp-action="Create" asp-controller="Comment" asp-route-id="@publication.Id" class="btn btn-primary">Publier un commentaire</a>
-                <a asp-action="Details" asp-controller="Comment" asp-route-id="@publication.Id" class="btn btn-primary mt-3">Voir les commentaires</a>
+                <a asp-action="Create" asp-controller="Comment" asp-route-id="@publication.Id" class="btn btn-outline-dark">Publier un commentaire</a>
+                <a asp-action="Details" asp-controller="Comment" asp-route-id="@publication.Id" class="btn btn-outline-dark mt-3">Voir les commentaires</a>
             </div>
         </div>
     }
