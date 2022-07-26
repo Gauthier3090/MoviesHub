@@ -32,6 +32,7 @@ public class ConnexionController : Controller
     {
         if (!ModelState.IsValid || userConnexionForm?.Email == null || userConnexionForm.Password == null)
             return View(userConnexionForm);
+
         string passwordHash = _userService.GetPassword(userConnexionForm.Email) ?? "null";
         if (Argon2.Verify(passwordHash, userConnexionForm.Password))
         {
@@ -74,44 +75,49 @@ public class ConnexionController : Controller
             TempData["error"] = "Veuillez remplir tous les champs";
             return View(userForm);
         }
+
         if (_userService.GetByEmail(userForm.Email) != null)
         {
             TempData["error"] = "L'email est déjà utilisé !";
             return View(userForm);
         }
+
         string passwordHash = Argon2.Hash(userForm.Password);
+
         ImageService imageUser = new(userForm.Image);
         string? filenameImage = imageUser.FileName;
         imageUser.SaveImage();
+
         if (filenameImage != null)
         {
             _userService.Insert(userForm.Email, userForm.Firstname, userForm.Lastname, passwordHash,
                 userForm.Birthdate, filenameImage)?.ToModel();
             TempData["success"] = "Vous êtes désormais inscrit !";
         }
+
         return View();
     }
 
     public IActionResult UpdateUser()
     {
-        string? idstring = HttpContext.Session.GetString("Id");
-        if (idstring == null) return View();
-        int id = int.Parse(idstring);
-        UserDto? user = _userService.GetById(id);
-        if (user == null) return View();
-        HttpContext.Session.SetString("Image", user.Image ?? "not found");
-        HttpContext.Session.SetInt32("IsConnected", 1);
+        bool success = int.TryParse(HttpContext.Session.GetString("Id"), out int id);
+
+        if (success)
+        {
+            UserDto? user = _userService.GetById(id);
+            HttpContext.Session.SetString("Image", user?.Image ?? "not found");
+            HttpContext.Session.SetInt32("IsConnected", 1);
+        }
+
         return View();
     }
 
     public IActionResult UpdateButtonUser([FromForm] UserUpdateImage userForm)
     {
-        if (!ModelState.IsValid || userForm.Image == null)
-            return RedirectToAction("UpdateUser", "Connexion");
+        bool success = int.TryParse(HttpContext.Session.GetString("Id"), out int id);
 
-        string? idstring = HttpContext.Session.GetString("Id");
-        if (idstring == null) return RedirectToAction("UpdateUser", "Connexion");
-        int id = int.Parse(idstring);
+        if (!success || !ModelState.IsValid || userForm.Image == null)
+            return RedirectToAction("UpdateUser", "Connexion");
 
         ImageService imageUser = new(userForm.Image);
         string? filenameImage = imageUser.FileName;

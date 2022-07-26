@@ -28,11 +28,16 @@ public class CommentController : Controller
     public IActionResult Create(int id, [FromForm] CommentForm comment)
     {
         if (!ModelState.IsValid || comment.Headline == null || comment.Body == null)
+        {
             return View(comment);
-        string? user = HttpContext.Session.GetString("Id");
-        if (user == null) return View();
-        int idUser = int.Parse(user);
-        _commentService.Insert(comment.Headline, comment.Body, idUser, id);
+        }
+
+        bool success = int.TryParse(HttpContext.Session.GetString("Id"), out int userId);
+        if (success)
+        {
+            _commentService.Insert(comment.Headline, comment.Body, userId, id);
+        }
+
         return RedirectToAction("Index", "Flux");
     }
 
@@ -40,8 +45,12 @@ public class CommentController : Controller
     public IActionResult Details(int id)
     {
         if (_publicationService.PublicationExist(id) == null)
+        {
             return RedirectToAction("NotFound404", "Error");
+        }
+
         IEnumerable<CommentDto> comments = _commentService.GetCommentsByPublication(id);
+
         return View(comments);
     }
 }

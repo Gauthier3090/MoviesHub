@@ -25,19 +25,21 @@ public class FluxController : Controller
 
     public IActionResult Index()
     {
-        string? id = HttpContext.Session.GetString("Id");
-        int creator = 0;
-        if (id != null)
-            creator = int.Parse(id);
-        IEnumerable<PublicationDto> publications = _publicationService.GetPublicationByUser(creator);
-        IEnumerable<FollowDto> followers = _followService.GetFollows(creator);
-        foreach (FollowDto item in followers)
+        bool success = int.TryParse(HttpContext.Session.GetString("Id"), out int creator);
+
+        if (success)
         {
-            publications = publications.Concat(_publicationService.GetPublicationByUser(item.Follow!.Id));
+            IEnumerable<PublicationDto> publications = _publicationService.GetPublicationByUser(creator);
+            IEnumerable<FollowDto> followers = _followService.GetFollows(creator);
+            foreach (FollowDto item in followers)
+            {
+                publications = publications.Concat(_publicationService.GetPublicationByUser(item.Follow!.Id));
+            }
+            publications = publications.OrderByDescending(x => x.CreatedAt).ToList();
+            return View(publications);
         }
 
-        publications = publications.OrderByDescending(x => x.CreatedAt).ToList();
-        return View(publications);
+        return View();
     }
 
     public IActionResult Create()
