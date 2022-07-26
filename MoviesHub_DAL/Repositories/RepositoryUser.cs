@@ -1,6 +1,5 @@
 ﻿using System.Data;
 using System.Text.RegularExpressions;
-using Microsoft.VisualBasic;
 using MoviesWorld_DAL.Entities;
 using MoviesWorld_DAL.Interfaces;
 using Tools.Connections;
@@ -99,7 +98,7 @@ public class RepositoryUser : Repository<int, UserEntity>, IRepositoryUser
 
     public IEnumerable<UserEntity> Search(string firstname)
     {
-        string regexBarChar = "[%_]";
+        const string regexBarChar = "[%_]";
 
         string firstnameClean = Regex.Replace(firstname, regexBarChar, String.Empty, RegexOptions.None);
         if (string.IsNullOrWhiteSpace((firstnameClean)))

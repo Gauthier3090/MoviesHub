@@ -54,10 +54,18 @@ public class RepositoryFollow : Repository<int, FollowEntity>, IRepositoryFollow
     }
     public int? FollowerExist(int target, int follower)
     {
-        Command cmd = new("SELECT Follower FROM [Publication] WHERE Target=@target Follower=@follower");
+        Command cmd = new("SELECT Follower FROM [Follow] WHERE Target=@target AND Follower=@follower");
         cmd.AddParameter("@target", target);
         cmd.AddParameter("@follower", follower);
         object? res = Connection.ExecuteScalar(cmd);
         return Convert.ToInt32(res);
+    }
+
+    public bool DeleteUser(int target, int follower)
+    {
+        Command cmd = new("DELETE FROM [Follow] WHERE Target=@target AND Follower=@follower");
+        cmd.AddParameter("@target", target);
+        cmd.AddParameter("@follower", follower);
+        return Connection.ExecuteNonQuery(cmd) == 1;
     }
 }

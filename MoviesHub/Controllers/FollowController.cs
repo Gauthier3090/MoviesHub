@@ -46,4 +46,17 @@ public class FollowController : Controller
             _followService.Insert(target, follow);
         return RedirectToAction("Index", "Follow");
     }
+
+    [Route("Follow/DeleteUser/{follow}")]
+    public IActionResult DeleteUser(int follow)
+    {
+        string? user = HttpContext.Session.GetString("Id");
+        if (user == null) return RedirectToAction("Index", "Follow");
+        int target = int.Parse(user);
+        TempData["Success"] = "L'abonnement n'a pas pu être supprimé !";
+        if (_followService.DeleteUser(target, follow))
+            TempData["Success"] = "Abonnement supprimé avec succès !";
+        Console.WriteLine(TempData["Success"]);
+        return RedirectToAction("Index", "Follow");
+    }
 }

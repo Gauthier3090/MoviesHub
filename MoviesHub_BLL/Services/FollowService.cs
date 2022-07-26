@@ -47,4 +47,11 @@ public class FollowService
     {
         return _repositoryFollow.FollowerExist(target, follower);
     }
+
+    public bool DeleteUser(int target, int follower)
+    {
+        if (_repositoryUser.GetById(follower) != null)
+            return _repositoryFollow.DeleteUser(target, follower);
+        return false;
+    }
 }

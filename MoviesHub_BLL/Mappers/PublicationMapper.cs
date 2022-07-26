@@ -5,7 +5,7 @@ namespace MoviesWorld_BLL.Mappers;
 
 public static class PublicationMapper
 {
-    public static PublicationDto ToDto(this PublicationEntity entity)
+    public static PublicationDto ToDto(this PublicationEntity entity, UserDto user)
     {
         return new PublicationDto
         {
@@ -15,6 +15,7 @@ public static class PublicationMapper
             Image = entity.Image,
             Creator = entity.Creator,
             CreatedAt = entity.CreatedAt,
+            User = user
         };
     }
 

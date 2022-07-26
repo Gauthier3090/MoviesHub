@@ -26,7 +26,14 @@
     {
         <div class="d-flex justify-content-center flex-column mt-5 pb-3 bg-light text-black w-50 m-auto">
             <div class="d-flex justify-content-between">
-                <p class="text-start p-3">Vous avez regardé ce film</p>
+                @if (@publication.Creator.ToString() == @Accessor.HttpContext?.Session.GetString("Id"))
+                {
+                    <p class="text-start p-3">Vous avez regardé ce film</p>
+                }
+                else
+                {
+                    <p class="text-start p-3">@publication.User?.Firstname @publication.User?.Lastname a regardé ce film</p>
+                }
                 <p class="text-end p-3">@publication.CreatedAt</p>
             </div>
             <div class="d-flex justify-content-center align-items-center flex-column">

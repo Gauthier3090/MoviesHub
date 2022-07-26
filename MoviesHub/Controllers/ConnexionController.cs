@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using MoviesWorld.Models.Mappers;
 using MoviesWorld_BLL.DTO;
 using MoviesWorld_BLL.Services;
-using MoviesWorld_DAL.Entities;
 using MoviesWorld.Models;
 using MoviesWorld.Services;
 

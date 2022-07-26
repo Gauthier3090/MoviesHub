@@ -9,5 +9,6 @@ public class PublicationDto
     public DateTime CreatedAt { get; set; }
     public DateTime? UpdatedAt { get; set; }
     public bool IsActive { get; set; }
+    public UserDto? User { get; set; }
     public int Creator { get; set; }
 }

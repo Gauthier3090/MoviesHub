@@ -36,10 +36,16 @@ function addHeader(thead) {
 
 
 const searchElement = document.getElementById("search");
+const tablePerson = document.getElementById("table-person");
 
 searchElement.addEventListener("keyup",
     function() {
         const input = searchElement.value;
+
+        console.log(input);
+        if (input.match(/^ *$/) !== null && document.getElementById("table-person")) {
+            document.getElementById("table-person").remove();
+        }
 
         axios.get("/Follow/SearchUser",
                 {
@@ -55,7 +61,9 @@ searchElement.addEventListener("keyup",
                 const thead = document.createElement("thead");
                 const tbody = document.createElement("tbody");
 
-                document.getElementById("table-person").remove();
+                if (document.getElementById("table-person")) {
+                    document.getElementById("table-person").remove();
+                }
 
                 table.appendChild(thead);
                 table.appendChild(tbody);
