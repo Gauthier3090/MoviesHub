@@ -19,11 +19,7 @@ public class ConnexionController : Controller
 
     public IActionResult Index()
     {
-        return View(new UserConnexionForm
-        {
-            Email = "gauthier.pladet@gmail.com",
-            Password = "#Helloworld1"
-        });
+        return View();
     }
 
     [HttpPost]
